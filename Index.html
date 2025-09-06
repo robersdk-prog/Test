@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro de Examen Informática C1 - Ayuntamiento de Zamora</title>
+    <!-- Incluye el framework Tailwind CSS para un diseño moderno y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define la fuente Inter para un estilo limpio y profesional */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Color de fondo claro */
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <!-- Contenedor principal del examen -->
+    <div id="exam-container" class="bg-white shadow-xl rounded-lg p-6 sm:p-8 w-full max-w-2xl border border-gray-200">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Simulacro de Examen Informática C1</h1>
+        <div id="question-card" class="mb-4">
+            <!-- Título de la pregunta actual -->
+            <h2 id="question-title" class="text-xl font-semibold mb-4 text-gray-700"></h2>
+            <!-- Contenedor para las opciones de respuesta -->
+            <div id="options-container" class="space-y-3"></div>
+        </div>
+        
+        <!-- Contenedor para mostrar la retroalimentación y la explicación -->
+        <div id="feedback-container" class="mt-6 mb-4 p-4 rounded-lg hidden">
+            <h3 id="feedback-title" class="text-lg font-bold"></h3>
+            <p id="feedback-message" class="text-base mt-2"></p>
+        </div>
+
+        <!-- Botones de navegación -->
+        <div id="buttons-container" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 justify-end mt-6">
+            <button id="next-btn" class="bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hidden">Siguiente</button>
+            <button id="show-solution-btn" class="bg-gray-400 text-gray-800 font-medium py-3 px-6 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">Mostrar Solución</button>
+            <button id="restart-btn" class="bg-red-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-700 transition-colors duration-200 hidden">Reiniciar Examen</button>
+        </div>
+    </div>
+
+    <!-- Script de JavaScript para la lógica del examen -->
+    <script>
+        const quizData = [
+            {
+                question: "¿Cuál de los siguientes no es un protocolo de la capa de transporte del modelo TCP/IP?",
+                options: ["TCP (Transmission Control Protocol)", "UDP (User Datagram Protocol)", "ARP (Address Resolution Protocol)", "SCTP (Stream Control Transmission Protocol)"],
+                correctAnswer: "ARP (Address Resolution Protocol)",
+                rationale: "El ARP opera en la capa de enlace de datos (capa 2) y se utiliza para traducir direcciones IP en direcciones MAC. Por lo tanto, no es un protocolo de la capa de transporte.",
+                hint: "Piensa en el propósito de cada protocolo. ¿Cuál de ellos se encarga de la traducción de direcciones en la red local?"
+            },
+            {
+                question: "En un sistema operativo Linux, ¿qué comando se utiliza para mostrar el contenido de un directorio?",
+                options: ["pwd", "ls", "cd", "mkdir"],
+                correctAnswer: "ls",
+                rationale: "El comando `ls` (list) se utiliza para listar los archivos y subdirectorios de un directorio.",
+                hint: "Recuerda el acrónimo del comando, que significa 'listado'."
+            },
+            {
+                question: "Según el Real Decreto 311/2022 que aprueba el Esquema Nacional de Seguridad (ENS), ¿qué nivel de seguridad le corresponde a la información cuyo daño afectaría gravemente a las funciones esenciales de la Administración?",
+                options: ["Bajo", "Medio", "Alto", "Muy Alto"],
+                correctAnswer: "Alto",
+                rationale: "El nivel de seguridad Alto se aplica a la información cuyo daño causaría un perjuicio grave o una pérdida de las funciones esenciales.",
+                hint: "Piensa en la escala de gravedad del daño: menor, importante, grave."
+            },
+            {
+                question: "En una base de datos relacional, ¿qué es una clave primaria?",
+                options: ["Un campo que puede contener valores duplicados.", "Un campo que se utiliza para enlazar dos tablas entre sí.", "Un identificador único para cada registro en una tabla.", "Un campo que solo puede contener valores nulos."],
+                correctAnswer: "Un identificador único para cada registro en una tabla.",
+                rationale: "Una clave primaria es un campo o conjunto de campos que identifica de forma única cada tupla (registro) en una tabla.",
+                hint: "Recuerda la función principal de una clave primaria: identificar de forma unívoca."
+            },
+            {
+                question: "¿Cuál es la función principal de un 'firewall' en una red informática?",
+                options: ["Aumentar la velocidad de la conexión a internet.", "Proteger la red de accesos no autorizados.", "Realizar copias de seguridad de los datos.", "Optimizar el uso del disco duro."],
+                correctAnswer: "Proteger la red de accesos no autorizados.",
+                rationale: "La función principal de un firewall es monitorear y filtrar el tráfico de red entrante y saliente basándose en reglas de seguridad para proteger contra amenazas.",
+                hint: "Piensa en un 'muro de fuego' en el contexto de la seguridad de la red."
+            },
+            {
+                question: "¿Qué tipo de ataque informático se basa en el envío masivo de peticiones a un servidor para sobrecargarlo y dejarlo inoperativo?",
+                options: ["Phishing", "DDoS (Distributed Denial of Service)", "Man-in-the-Middle (MitM)", "Ransomware"],
+                correctAnswer: "DDoS (Distributed Denial of Service)",
+                rationale: "Un ataque DDoS utiliza múltiples sistemas para enviar peticiones masivas a un objetivo, colapsando su servicio.",
+                hint: "El nombre del ataque describe su propósito: negar el servicio de manera distribuida."
+            },
+            {
+                question: "En Microsoft Excel, ¿qué función se utiliza para contar el número de celdas en un rango que cumplen con una condición específica?",
+                options: ["CONTAR.SI.CONJUNTO", "SUMAR.SI", "PROMEDIO.SI", "CONTAR.SI"],
+                correctAnswer: "CONTAR.SI",
+                rationale: "La función `CONTAR.SI` se utiliza para contar celdas en un rango que cumplen con una única condición, como por ejemplo, contar cuántas celdas son mayores que 10.",
+                hint: "La función de conteo más simple que utiliza una única condición."
+            },
+            {
+                question: "Según la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, ¿qué principio de la actuación administrativa electrónica establece que las Administraciones Públicas deberán asegurar la identidad de los interesados y de los órganos o personal de las Administraciones Públicas actuantes?",
+                options: ["Principio de transparencia", "Principio de autenticidad", "Principio de interoperabilidad", "Principio de proporcionalidad"],
+                correctAnswer: "Principio de autenticidad",
+                rationale: "El principio de autenticidad garantiza la identidad de los actores y la integridad de los documentos y trámites electrónicos, asegurando que se corresponden con la persona o entidad que los firma.",
+                hint: "El término clave es 'identidad'. ¿Qué palabra en las opciones se relaciona con la confirmación de la identidad?"
+            },
+            {
+                question: "¿Qué componente de hardware es el encargado de ejecutar las instrucciones de los programas y procesar los datos?",
+                options: ["La memoria RAM", "La tarjeta gráfica (GPU)", "La placa base (Motherboard)", "La CPU (Central Processing Unit)"],
+                correctAnswer: "La CPU (Central Processing Unit)",
+                rationale: "La CPU, o procesador, es el 'cerebro' del ordenador, responsable de interpretar y ejecutar las instrucciones de los programas, así como de procesar los datos.",
+                hint: "Su nombre en inglés significa 'Unidad Central de Procesamiento'."
+            },
+            {
+                question: "En ofimática, ¿qué es un macro?",
+                options: ["Una fórmula predefinida para realizar cálculos complejos.", "Un tipo de archivo para documentos con formatos específicos.", "Una secuencia de comandos o instrucciones que se almacenan y ejecutan para automatizar tareas repetitivas.", "Una hoja de cálculo muy grande que contiene más de 100.000 filas."],
+                correctAnswer: "Una secuencia de comandos o instrucciones que se almacenan y ejecutan para automatizar tareas repetitivas.",
+                rationale: "Un macro es una serie de instrucciones programadas que se pueden ejecutar de forma automática o con una simple acción, como pulsar un botón, para realizar tareas repetitivas.",
+                hint: "Piensa en las tareas que realizas a menudo. ¿Cómo las podrías simplificar o automatizar?"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+        
+        const questionTitle = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const nextBtn = document.getElementById('next-btn');
+        const showSolutionBtn = document.getElementById('show-solution-btn');
+        const restartBtn = document.getElementById('restart-btn');
+
+        /**
+         * Renderiza la pregunta actual en la interfaz.
+         */
+        function renderQuestion() {
+            if (currentQuestionIndex < quizData.length) {
+                const question = quizData[currentQuestionIndex];
+                questionTitle.textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}: ${question.question}`;
+                optionsContainer.innerHTML = '';
+                feedbackContainer.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                showSolutionBtn.classList.remove('hidden');
+                answered = false;
+
+                // Crea un botón para cada opción de respuesta
+                question.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.className = "w-full text-left p-4 rounded-lg bg-gray-100 border border-gray-300 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
+                    button.onclick = () => handleAnswer(option);
+                    optionsContainer.appendChild(button);
+                });
+            } else {
+                showResults();
+            }
+        }
+
+        /**
+         * Maneja la respuesta del usuario al seleccionar una opción.
+         * @param {string} selectedOption La opción de respuesta seleccionada por el usuario.
+         */
+        function handleAnswer(selectedOption) {
+            if (answered) return;
+
+            answered = true;
+            const question = quizData[currentQuestionIndex];
+            const isCorrect = (selectedOption === question.correctAnswer);
+            
+            // Desactiva los botones y muestra la respuesta correcta
+            Array.from(optionsContainer.children).forEach(button => {
+                button.disabled = true;
+                if (button.textContent === question.correctAnswer) {
+                    button.classList.add('bg-green-100', 'border-green-500');
+                } else if (button.textContent === selectedOption) {
+                    button.classList.add('bg-red-100', 'border-red-500');
+                }
+                button.classList.remove('hover:bg-gray-200');
+            });
+
+            // Muestra el feedback de la respuesta
+            feedbackContainer.classList.remove('hidden');
+            if (isCorrect) {
+                score++;
+                feedbackContainer.classList.add('bg-green-50', 'border-green-500');
+                feedbackContainer.classList.remove('bg-red-50', 'border-red-500');
+                feedbackTitle.textContent = "¡Respuesta correcta!";
+                feedbackMessage.textContent = question.rationale;
+            } else {
+                feedbackContainer.classList.add('bg-red-50', 'border-red-500');
+                feedbackContainer.classList.remove('bg-green-50', 'border-green-500');
+                feedbackTitle.textContent = "Respuesta incorrecta.";
+                feedbackMessage.textContent = `La respuesta correcta es: ${question.correctAnswer}. ${question.rationale}`;
+            }
+
+            nextBtn.classList.remove('hidden');
+            showSolutionBtn.classList.add('hidden');
+        }
+
+        /**
+         * Muestra la solución correcta sin que el usuario haya respondido.
+         */
+        function showSolution() {
+            if (answered) return;
+
+            const question = quizData[currentQuestionIndex];
+            
+            Array.from(optionsContainer.children).forEach(button => {
+                button.disabled = true;
+                if (button.textContent === question.correctAnswer) {
+                    button.classList.add('bg-blue-100', 'border-blue-500');
+                }
+                button.classList.remove('hover:bg-gray-200');
+            });
+
+            feedbackContainer.classList.remove('hidden');
+            feedbackContainer.classList.add('bg-blue-50', 'border-blue-500');
+            feedbackContainer.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+            feedbackTitle.textContent = "Solución:";
+            feedbackMessage.textContent = question.rationale;
+            nextBtn.classList.remove('hidden');
+            showSolutionBtn.classList.add('hidden');
+        }
+
+        /**
+         * Pasa a la siguiente pregunta.
+         */
+        function nextQuestion() {
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+        
+        /**
+         * Muestra los resultados finales del examen.
+         */
+        function showResults() {
+            questionTitle.textContent = "Examen Finalizado";
+            optionsContainer.innerHTML = `<p class="text-xl text-center font-semibold">Has respondido ${score} de ${quizData.length} preguntas correctamente.</p>`;
+            feedbackContainer.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            showSolutionBtn.classList.add('hidden');
+            restartBtn.classList.remove('hidden');
+        }
+
+        /**
+         * Reinicia el examen desde la primera pregunta.
+         */
+        function restartExam() {
+            currentQuestionIndex = 0;
+            score = 0;
+            restartBtn.classList.add('hidden');
+            renderQuestion();
+        }
+
+        nextBtn.addEventListener('click', nextQuestion);
+        showSolutionBtn.addEventListener('click', showSolution);
+        restartBtn.addEventListener('click', restartExam);
+
+        renderQuestion();
+    </script>
+
+</body>
+</html>
+
