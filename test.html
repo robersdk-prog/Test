@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro de Examen Informática C1 - Ayuntamiento de Zamora</title>
+    <!-- Incluye el framework Tailwind CSS para un diseño moderno y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define la fuente Inter para un estilo limpio y profesional */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Color de fondo claro por defecto */
+            color: #1f2937;
+        }
+
+        /* Configuración del modo oscuro usando la clase 'dark' de Tailwind */
+        .dark body {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+
+        .dark #exam-container, .dark #menu-container {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+        
+        .dark #main-title, .dark h2, .dark p {
+            color: #e5e7eb;
+        }
+        
+        .dark .menu-btn {
+            background-color: #4b5563;
+            border-color: #6b7280;
+            color: #e5e7eb;
+        }
+
+        .dark .menu-btn:hover {
+            background-color: #6b7280;
+        }
+
+        .dark #options-container button {
+            background-color: #4b5563;
+            border-color: #6b7280;
+            color: #e5e7eb;
+        }
+
+        .dark #options-container button:hover {
+            background-color: #6b7280;
+        }
+
+        .dark #options-container .bg-green-100 { background-color: #10b981; }
+        .dark #options-container .bg-red-100 { background-color: #ef4444; }
+        .dark #options-container .bg-blue-100 { background-color: #3b82f6; }
+
+        .dark #feedback-container.bg-green-50 { background-color: #047857; }
+        .dark #feedback-container.bg-red-50 { background-color: #b91c1c; }
+        .dark #feedback-container.bg-blue-50 { background-color: #2563eb; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 text-base">
+
+    <!-- Contenedor principal para el menú y el examen -->
+    <div id="main-content" class="w-full max-w-2xl">
+        <!-- Contenedor del menú principal -->
+        <div id="menu-container" class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full border border-gray-200">
+            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200" id="main-title">Simulacro de Exámenes Informática C1</h1>
+            <p class="text-center text-gray-700 dark:text-gray-300 mb-6">Selecciona un examen para empezar:</p>
+            <div id="menu-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- Contenedor del examen (inicialmente oculto) -->
+        <div id="exam-container" class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full border border-gray-200 hidden">
+            <!-- Contenedor superior para la barra de progreso y los botones de texto/modo -->
+            <div class="flex justify-between items-center mb-6">
+                <!-- Barra de progreso -->
+                <div id="progress-container" class="w-full h-2 bg-gray-200 rounded-full overflow-hidden mr-4 dark:bg-gray-700">
+                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500 ease-out" style="width: 0%;"></div>
+                </div>
+                
+                <!-- Botones de ajuste de tamaño de texto y modo oscuro -->
+                <div class="flex space-x-2">
+                    <button id="decrease-text-btn" class="bg-gray-400 text-gray-800 font-medium p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button id="increase-text-btn" class="bg-gray-400 text-gray-800 font-medium p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button id="dark-mode-btn" class="bg-gray-400 text-gray-800 font-medium p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200" id="exam-title"></h1>
+            
+            <div id="question-card" class="mb-4">
+                <!-- Título de la pregunta actual -->
+                <h2 id="question-title" class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-300"></h2>
+                <!-- Contenedor para las opciones de respuesta -->
+                <div id="options-container" class="space-y-3"></div>
+            </div>
+            
+            <!-- Contenedor para mostrar la retroalimentación y la explicación -->
+            <div id="feedback-container" class="mt-6 mb-4 p-4 rounded-lg hidden">
+                <h3 id="feedback-title" class="text-lg font-bold"></h3>
+                <p id="feedback-message" class="text-base mt-2"></p>
+            </div>
+
+            <!-- Botones de navegación -->
+            <div id="buttons-container" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 justify-end items-center mt-6">
+                <button id="next-btn" class="bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hidden">Siguiente</button>
+                <button id="show-solution-btn" class="bg-gray-400 text-gray-800 font-medium py-3 px-6 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">Mostrar Solución</button>
+                <button id="restart-btn" class="bg-red-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-700 transition-colors duration-200 hidden">Reiniciar Examen</button>
+                <button id="back-to-menu-btn" class="bg-gray-400 text-gray-800 font-medium py-3 px-6 rounded-lg hover:bg-gray-500 transition-colors duration-200 hidden">Volver al Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de JavaScript para la lógica del examen -->
+    <script>
+        const allQuizzes = [
+            {
+                title: "Examen de Redes y Protocolos",
+                questions: [
+                    {
+                        question: "¿Cuál de los siguientes no es un protocolo de la capa de transporte del modelo TCP/IP?",
+                        options: ["TCP (Transmission Control Protocol)", "UDP (User Datagram Protocol)", "ARP (Address Resolution Protocol)", "SCTP (Stream Control Transmission Protocol)"],
+                        correctAnswer: "ARP (Address Resolution Protocol)",
+                        rationale: "El ARP opera en la capa de enlace de datos (capa 2) y se utiliza para traducir direcciones IP en direcciones MAC. Por lo tanto, no es un protocolo de la capa de transporte, que se encuentra en la capa 4.",
+                        hint: "Piensa en el propósito de cada protocolo. ¿Cuál de ellos se encarga de la traducción de direcciones en la red local?"
+                    },
+                    {
+                        question: "¿Qué tipo de ataque informático se basa en el envío masivo de peticiones a un servidor para sobrecargarlo y dejarlo inoperativo?",
+                        options: ["Phishing", "DDoS (Distributed Denial of Service)", "Man-in-the-Middle (MitM)", "Ransomware"],
+                        correctAnswer: "DDoS (Distributed Denial of Service)",
+                        rationale: "Un ataque DDoS utiliza múltiples sistemas para enviar peticiones masivas a un objetivo, colapsando su servicio.",
+                        hint: "El nombre del ataque describe su propósito: negar el servicio de manera distribuida."
+                    },
+                    {
+                        question: "¿Qué protocolo se utiliza para la resolución de nombres de dominio a direcciones IP?",
+                        options: ["HTTP", "FTP", "DNS", "SMTP"],
+                        correctAnswer: "DNS",
+                        rationale: "DNS (Domain Name System) es el protocolo que traduce los nombres de dominio legibles para humanos (ej. www.ejemplo.com) en direcciones IP numéricas que las computadoras pueden usar para comunicarse.",
+                        hint: "Su nombre se relaciona directamente con el sistema de nombres de dominio."
+                    },
+                    {
+                        question: "¿Cuál es el puerto por defecto para el protocolo HTTP?",
+                        options: ["21", "25", "80", "443"],
+                        correctAnswer: "80",
+                        rationale: "El puerto 80 es el puerto estándar y predeterminado que utilizan los navegadores web para comunicarse con los servidores web a través de HTTP.",
+                        hint: "Es el número de puerto más común para el tráfico web no seguro."
+                    },
+                    {
+                        question: "¿Qué dirección IP es un ejemplo de una dirección IPv4 privada?",
+                        options: ["172.16.0.1", "200.20.10.10", "8.8.8.8", "198.1.2.3"],
+                        correctAnswer: "172.16.0.1",
+                        rationale: "Las direcciones IPv4 privadas se encuentran en tres rangos específicos: 10.0.0.0/8, 172.16.0.0/12, y 192.168.0.0/16. La opción 172.16.0.1 está dentro de uno de esos rangos.",
+                        hint: "Recuerda los rangos de direcciones IP privadas. Uno de ellos comienza con 172."
+                    },
+                    {
+                        question: "¿Qué protocolo de la capa de aplicación se utiliza para el envío de correo electrónico?",
+                        options: ["POP3", "IMAP", "SMTP", "HTTP"],
+                        correctAnswer: "SMTP",
+                        rationale: "SMTP (Simple Mail Transfer Protocol) es el protocolo estándar para la transmisión de correo electrónico entre servidores de correo. POP3 e IMAP se utilizan para recibirlo.",
+                        hint: "Su nombre se relaciona con el 'envío' de correo."
+                    },
+                    {
+                        question: "¿Cuál de las siguientes topologías de red conecta todos los dispositivos a un único cable central?",
+                        options: ["Anillo", "Malla", "Bus", "Estrella"],
+                        correctAnswer: "Bus",
+                        rationale: "En una topología de bus, todos los nodos están conectados a un cable principal (el 'bus') que transmite los datos.",
+                        hint: "El nombre de esta topología de red se asemeja al transporte público."
+                    },
+                    {
+                        question: "En el modelo OSI, ¿qué capa se encarga de la transmisión de datos a través de medios físicos?",
+                        options: ["Capa de Red", "Capa de Enlace de Datos", "Capa Física", "Capa de Transporte"],
+                        correctAnswer: "Capa Física",
+                        rationale: "La capa física es la primera capa del modelo OSI y es responsable de la transmisión de bits a través de un medio físico, como cables o señales de radio.",
+                        hint: "La capa más baja, relacionada con los componentes tangibles."
+                    },
+                    {
+                        question: "¿Qué es una dirección MAC?",
+                        options: ["Una dirección lógica que identifica un dispositivo en una red.", "Una dirección física única de 48 bits asignada a la interfaz de red por el fabricante.", "Una dirección que se utiliza para la navegación en Internet.", "Una dirección que cambia cada vez que el dispositivo se conecta a una red."],
+                        correctAnswer: "Una dirección física única de 48 bits asignada a la interfaz de red por el fabricante.",
+                        rationale: "La dirección MAC (Media Access Control) es un identificador único de 48 bits que se asigna a las tarjetas de red o NIC (Network Interface Controller).",
+                        hint: "La dirección MAC es un identificador de hardware único para cada tarjeta de red."
+                    },
+                    {
+                        question: "¿Qué comando de la línea de comandos se utiliza para probar la accesibilidad de un host en una red IP?",
+                        options: ["ipconfig", "ping", "tracert", "netstat"],
+                        correctAnswer: "ping",
+                        rationale: "El comando `ping` se utiliza para verificar la conectividad de un host a otro en una red IP enviando paquetes de datos y midiendo el tiempo de respuesta.",
+                        hint: "Piensa en un sonido que se usa para verificar si algo está vivo o 'responde'."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Sistemas Operativos",
+                questions: [
+                    {
+                        question: "En un sistema operativo Linux, ¿qué comando se utiliza para mostrar el contenido de un directorio?",
+                        options: ["pwd", "ls", "cd", "mkdir"],
+                        correctAnswer: "ls",
+                        rationale: "El comando `ls` (list) se utiliza para listar los archivos y subdirectorios de un directorio.",
+                        hint: "Recuerda el acrónimo del comando, que significa 'listado'."
+                    },
+                    {
+                        question: "¿Qué componente de hardware es el encargado de ejecutar las instrucciones de los programas y procesar los datos?",
+                        options: ["La memoria RAM", "La tarjeta gráfica (GPU)", "La placa base (Motherboard)", "La CPU (Central Processing Unit)"],
+                        correctAnswer: "La CPU (Central Processing Unit)",
+                        rationale: "La CPU, o procesador, es el 'cerebro' del ordenador, responsable de interpretar y ejecutar las instrucciones de los programas, así como de procesar los datos.",
+                        hint: "Su nombre en inglés significa 'Unidad Central de Procesamiento'."
+                    },
+                    {
+                        question: "¿Qué significa el acrónimo RAM?",
+                        options: ["Read-Only Memory", "Random Access Memory", "Read Access Memory", "Rapid and Modern"],
+                        correctAnswer: "Random Access Memory",
+                        rationale: "RAM significa 'Random Access Memory' o 'Memoria de Acceso Aleatorio', que es el tipo de memoria volátil que utiliza el sistema operativo y las aplicaciones para trabajar con datos activamente.",
+                        hint: "Piensa en el significado de sus siglas en inglés."
+                    },
+                    {
+                        question: "En Windows, ¿qué combinación de teclas se utiliza para abrir el Administrador de Tareas?",
+                        options: ["Ctrl + Alt + Supr", "Ctrl + Shift + Esc", "Alt + F4", "Windows + R"],
+                        correctAnswer: "Ctrl + Shift + Esc",
+                        rationale: "La combinación 'Ctrl + Shift + Esc' abre directamente el Administrador de Tareas en Windows, mientras que 'Ctrl + Alt + Supr' ofrece un menú con varias opciones, incluida la de abrir el administrador.",
+                        hint: "Es la combinación más directa para abrir esta herramienta de administración."
+                    },
+                    {
+                        question: "¿Qué es un 'proceso' en el contexto de un sistema operativo?",
+                        options: ["Un archivo ejecutable almacenado en el disco duro.", "Una tarea que se ejecuta en segundo plano.", "Una instancia de un programa en ejecución.", "Un conjunto de datos que se procesan al mismo tiempo."],
+                        correctAnswer: "Una instancia de un programa en ejecución.",
+                        rationale: "Un proceso es una instancia en ejecución de un programa que tiene sus propios recursos de memoria y ejecución, gestionados por el sistema operativo.",
+                        hint: "Se refiere a la ejecución de un programa, no al archivo en sí mismo."
+                    },
+                    {
+                        question: "¿Cuál de las siguientes no es una función principal de un sistema operativo?",
+                        options: ["Gestión de la memoria", "Gestión de archivos", "Gestión de recursos de hardware", "Creación de contenido multimedia"],
+                        correctAnswer: "Creación de contenido multimedia",
+                        rationale: "Aunque los sistemas operativos pueden ejecutar programas de creación de contenido multimedia, su función principal es gestionar los recursos del sistema y no crear el contenido por sí mismos.",
+                        hint: "Piensa en las tareas fundamentales del sistema, como la gestión de hardware y software."
+                    },
+                    {
+                        question: "En Linux, ¿qué comando se utiliza para cambiar el directorio actual?",
+                        options: ["ls", "mkdir", "cd", "rmdir"],
+                        correctAnswer: "cd",
+                        rationale: "El comando `cd` (change directory) se utiliza para navegar entre directorios en la línea de comandos de sistemas basados en Unix y Linux.",
+                        hint: "El acrónimo del comando es 'cambiar directorio'."
+                    },
+                    {
+                        question: "¿Qué es el 'kernel' de un sistema operativo?",
+                        options: ["La interfaz de usuario del sistema.", "Un programa antivirus preinstalado.", "El componente central que gestiona la comunicación entre el hardware y el software.", "El conjunto de aplicaciones preinstaladas."],
+                        correctAnswer: "El componente central que gestiona la comunicación entre el hardware y el software.",
+                        rationale: "El kernel es el núcleo del sistema operativo, responsable de la gestión de los recursos del sistema y de permitir que las aplicaciones accedan al hardware.",
+                        hint: "Es el corazón del sistema operativo, el componente más bajo y fundamental."
+                    },
+                    {
+                        question: "¿Cuál de los siguientes es un sistema operativo de código abierto?",
+                        options: ["Windows", "macOS", "iOS", "Android"],
+                        correctAnswer: "Android",
+                        rationale: "Android se basa en el kernel de Linux y es un sistema operativo de código abierto, lo que permite a los desarrolladores modificar y distribuir el código libremente.",
+                        hint: "Piensa en qué sistema operativo móvil se basa en Linux."
+                    },
+                    {
+                        question: "¿Qué es un 'controlador de dispositivo'?",
+                        options: ["Un programa para optimizar el rendimiento del disco duro.", "Un pequeño programa que permite que el sistema operativo se comunique con un dispositivo de hardware específico.", "Un tipo de memoria que acelera el acceso a los archivos.", "Un software que gestiona la red Wi-Fi."],
+                        correctAnswer: "Un pequeño programa que permite que el sistema operativo se comunique con un dispositivo de hardware específico.",
+                        rationale: "Un controlador (driver) es un software que actúa como una interfaz entre el sistema operativo y un dispositivo de hardware, permitiendo su correcto funcionamiento.",
+                        hint: "Los 'controladores' son necesarios para que el hardware sea 'controlado' por el sistema operativo."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Seguridad y Legislación",
+                questions: [
+                    {
+                        question: "Según el Real Decreto 311/2022 que aprueba el Esquema Nacional de Seguridad (ENS), ¿qué nivel de seguridad le corresponde a la información cuyo daño afectaría gravemente a las funciones esenciales de la Administración?",
+                        options: ["Bajo", "Medio", "Alto", "Muy Alto"],
+                        correctAnswer: "Alto",
+                        rationale: "El nivel de seguridad Alto se aplica a la información cuyo daño causaría un perjuicio grave o una pérdida de las funciones esenciales.",
+                        hint: "Piensa en la escala de gravedad del daño: menor, importante, grave."
+                    },
+                    {
+                        question: "¿Qué tipo de ataque informático se basa en el envío masivo de peticiones a un servidor para sobrecargarlo y dejarlo inoperativo?",
+                        options: ["Phishing", "DDoS (Distributed Denial of Service)", "Man-in-the-Middle (MitM)", "Ransomware"],
+                        correctAnswer: "DDoS (Distributed Denial of Service)",
+                        rationale: "Un ataque DDoS utiliza múltiples sistemas para enviar peticiones masivas a un objetivo, colapsando su servicio.",
+                        hint: "El nombre del ataque describe su propósito: negar el servicio de manera distribuida."
+                    },
+                    {
+                        question: "En el contexto de la seguridad de la información, ¿qué significa 'confidencialidad'?",
+                        options: ["Que la información es accesible para todos los usuarios.", "Que la información está disponible para su uso cuando se necesita.", "Que la información es precisa y completa.", "Que la información no está disponible ni se revela a individuos, entidades o procesos no autorizados."],
+                        correctAnswer: "Que la información no está disponible ni se revela a individuos, entidades o procesos no autorizados.",
+                        rationale: "La confidencialidad es la propiedad de que la información no sea revelada de forma no autorizada. Es uno de los tres pilares de la seguridad de la información, junto con la integridad y la disponibilidad.",
+                        hint: "Se relaciona con la privacidad y la protección contra la divulgación no deseada."
+                    },
+                    {
+                        question: "¿Qué es un 'ransomware'?",
+                        options: ["Un tipo de software espía que roba información personal.", "Un software malicioso que cifra los archivos de un usuario y exige un rescate para descifrarlos.", "Un virus que se propaga a través de la red sin interacción del usuario.", "Un tipo de ataque de suplantación de identidad."],
+                        correctAnswer: "Un software malicioso que cifra los archivos de un usuario y exige un rescate para descifrarlos.",
+                        rationale: "El ransomware es un tipo de malware que bloquea el acceso a un sistema o a los archivos del usuario y exige un pago para restaurar el acceso.",
+                        hint: "El nombre 'ransomware' es una combinación de 'ransom' (rescate) y 'software'."
+                    },
+                    {
+                        question: "Según la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD), ¿cuál de los siguientes es un derecho del interesado?",
+                        options: ["Derecho de acceso", "Derecho de publicación", "Derecho de distribución", "Derecho de propiedad"],
+                        correctAnswer: "Derecho de acceso",
+                        rationale: "La LOPDGDD, en línea con el RGPD, reconoce el derecho de los interesados a obtener del responsable del tratamiento la confirmación de si se están tratando o no datos personales que le conciernen.",
+                        hint: "Este derecho permite a las personas saber qué datos personales tienen las empresas sobre ellas."
+                    },
+                    {
+                        question: "¿Qué medida de seguridad en una red Wi-Fi ofrece la mejor protección?",
+                        options: ["WPA", "WEP", "WPA2", "No utilizar ninguna protección"],
+                        correctAnswer: "WPA2",
+                        rationale: "WPA2 (Wi-Fi Protected Access II) es el estándar de seguridad más robusto y común para las redes Wi-Fi, ofreciendo un cifrado más fuerte y una protección superior a sus predecesores WEP y WPA.",
+                        hint: "Busca la versión más avanzada y segura del protocolo de acceso protegido."
+                    },
+                    {
+                        question: "¿Qué es la 'suplantación de identidad' o 'phishing'?",
+                        options: ["Un ataque que sobrecarga un servidor con tráfico.", "Un intento fraudulento de obtener información confidencial, como contraseñas o datos bancarios, haciéndose pasar por una entidad de confianza.", "Un software malicioso que se duplica a sí mismo.", "Un ataque que modifica los datos de una base de datos."],
+                        correctAnswer: "Un intento fraudulento de obtener información confidencial, como contraseñas o datos bancarios, haciéndose pasar por una entidad de confianza.",
+                        rationale: "El phishing es una técnica de ingeniería social para engañar a los usuarios y que revelen sus datos personales o financieros.",
+                        hint: "El término 'phishing' se pronuncia de forma similar a 'fishing' (pescar) en inglés, y el atacante 'pesca' información de la víctima."
+                    },
+                    {
+                        question: "¿Qué es un 'certificado digital'?",
+                        options: ["Un archivo que contiene las contraseñas de un usuario.", "Una tarjeta física para acceder a un ordenador.", "Un documento electrónico que garantiza la identidad de una persona o entidad en Internet.", "Un tipo de licencia de software."],
+                        correctAnswer: "Un documento electrónico que garantiza la identidad de una persona o entidad en Internet.",
+                        rationale: "Un certificado digital es un documento electrónico que vincula una clave pública con la identidad de una persona o entidad, permitiendo la autenticación y el cifrado de datos.",
+                        hint: "Piensa en una 'identificación' digital que se utiliza para transacciones seguras en línea."
+                    },
+                    {
+                        question: "En el Esquema Nacional de Seguridad (ENS), ¿qué principio se relaciona con la obligación de que los sistemas de información estén operativos y accesibles para los usuarios autorizados cuando sea necesario?",
+                        options: ["Confidencialidad", "Integridad", "Disponibilidad", "Autenticidad"],
+                        correctAnswer: "Disponibilidad",
+                        rationale: "La disponibilidad es el principio de seguridad que asegura que los sistemas y la información estén accesibles y operativos para los usuarios autorizados cuando lo requieran.",
+                        hint: "El nombre del principio implica que el servicio debe estar 'disponible' en todo momento."
+                    },
+                    {
+                        question: "¿Qué es un 'cortafuegos' o 'firewall'?",
+                        options: ["Un software que optimiza la velocidad de la red.", "Un dispositivo de seguridad que filtra el tráfico de red según reglas predefinidas.", "Un sistema para realizar copias de seguridad de datos.", "Un tipo de antivirus."],
+                        correctAnswer: "Un dispositivo de seguridad que filtra el tráfico de red según reglas predefinidas.",
+                        rationale: "Un firewall es un sistema de seguridad de red que controla el tráfico entrante y saliente, permitiendo o denegando el paso de datos basándose en un conjunto de reglas de seguridad.",
+                        hint: "Piensa en un 'muro' que protege una red de amenazas externas."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Bases de Datos",
+                questions: [
+                    {
+                        question: "En una base de datos relacional, ¿qué es una clave primaria?",
+                        options: ["Un campo que puede contener valores duplicados.", "Un campo que se utiliza para enlazar dos tablas entre sí.", "Un identificador único para cada registro en una tabla.", "Un campo que solo puede contener valores nulos."],
+                        correctAnswer: "Un identificador único para cada registro en una tabla.",
+                        rationale: "Una clave primaria es un campo o conjunto de campos que identifica de forma única cada tupla (registro) en una tabla.",
+                        hint: "Recuerda la función principal de una clave primaria: identificar de forma unívoca."
+                    },
+                    {
+                        question: "¿Qué comando SQL se utiliza para insertar nuevos datos en una tabla?",
+                        options: ["UPDATE", "INSERT INTO", "SELECT", "DELETE FROM"],
+                        correctAnswer: "INSERT INTO",
+                        rationale: "El comando `INSERT INTO` se utiliza para agregar una o más filas a una tabla de la base de datos.",
+                        hint: "Piensa en la acción de 'introducir' o 'insertar' datos."
+                    },
+                    {
+                        question: "¿Qué es un 'índice' en una base de datos?",
+                        options: ["Una tabla que almacena todas las consultas SQL.", "Una estructura de datos que mejora la velocidad de las operaciones de búsqueda de datos.", "Un tipo de dato para almacenar números de teléfono.", "Un esquema que define las relaciones entre tablas."],
+                        correctAnswer: "Una estructura de datos que mejora la velocidad de las operaciones de búsqueda de datos.",
+                        rationale: "Los índices son estructuras que mejoran el rendimiento de la recuperación de datos, similar a un índice de libro, permitiendo encontrar filas más rápidamente.",
+                        hint: "Su función es similar a la de un índice en un libro."
+                    },
+                    {
+                        question: "¿Qué tipo de base de datos organiza los datos en tablas con filas y columnas?",
+                        options: ["Base de datos jerárquica", "Base de datos de red", "Base de datos NoSQL", "Base de datos relacional"],
+                        correctAnswer: "Base de datos relacional",
+                        rationale: "Las bases de datos relacionales, como MySQL, PostgreSQL y Oracle, se basan en el modelo de tablas (relaciones) para organizar y almacenar datos.",
+                        hint: "El nombre del tipo de base de datos hace referencia a la 'relación' entre sus componentes."
+                    },
+                    {
+                        question: "¿Qué comando SQL se utiliza para eliminar una tabla de la base de datos?",
+                        options: ["DELETE TABLE", "DROP TABLE", "REMOVE TABLE", "TRUNCATE TABLE"],
+                        correctAnswer: "DROP TABLE",
+                        rationale: "El comando `DROP TABLE` se utiliza para eliminar completamente una tabla de una base de datos, incluyendo la estructura de la tabla y todos sus datos.",
+                        hint: "Piensa en la acción de 'eliminar' la estructura de una tabla."
+                    },
+                    {
+                        question: "¿Qué es una 'clave foránea'?",
+                        options: ["Un identificador único para cada registro.", "Un campo en una tabla que se refiere a la clave primaria de otra tabla.", "Un campo que no puede ser nulo.", "Una clave que se utiliza para cifrar datos."],
+                        correctAnswer: "Un campo en una tabla que se refiere a la clave primaria de otra tabla.",
+                        rationale: "Una clave foránea establece un vínculo entre los datos en dos tablas diferentes, creando una relación entre ellas.",
+                        hint: "Se relaciona con el concepto de 'relacionar' tablas."
+                    },
+                    {
+                        question: "¿Qué comando SQL se utiliza para actualizar registros existentes en una tabla?",
+                        options: ["INSERT", "UPDATE", "MODIFY", "ALTER"],
+                        correctAnswer: "UPDATE",
+                        rationale: "El comando `UPDATE` se utiliza para modificar los datos existentes en una o más filas de una tabla.",
+                        hint: "El nombre del comando es la palabra 'actualizar' en inglés."
+                    },
+                    {
+                        question: "¿Qué lenguaje se utiliza para la definición de la estructura de una base de datos, como la creación de tablas?",
+                        options: ["DML (Data Manipulation Language)", "DDL (Data Definition Language)", "DCL (Data Control Language)", "TCL (Transaction Control Language)"],
+                        correctAnswer: "DDL (Data Definition Language)",
+                        rationale: "DDL se utiliza para crear, modificar y eliminar objetos de la base de datos, como tablas, índices y vistas. DML se utiliza para manipular los datos.",
+                        hint: "Este lenguaje se encarga de la 'definición' de la estructura."
+                    },
+                    {
+                        question: "¿Qué es una consulta SQL?",
+                        options: ["Un tipo de base de datos.", "Un archivo que almacena datos.", "Una petición para recuperar, modificar o manipular datos de una base de datos.", "Una forma de cifrar datos."],
+                        correctAnswer: "Una petición para recuperar, modificar o manipular datos de una base de datos.",
+                        rationale: "Una consulta SQL es la forma de interactuar con una base de datos relacional, permitiendo realizar operaciones como seleccionar, insertar, actualizar o eliminar datos.",
+                        hint: "Es la 'pregunta' que le haces a la base de datos para obtener o cambiar información."
+                    },
+                    {
+                        question: "¿Qué función de agregación SQL se utiliza para contar el número de registros en una tabla?",
+                        options: ["SUM", "AVG", "COUNT", "MAX"],
+                        correctAnswer: "COUNT",
+                        rationale: "La función `COUNT()` cuenta el número de filas de una tabla que cumplen con una condición específica.",
+                        hint: "La palabra en inglés para 'contar'."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Ofimática I",
+                questions: [
+                    {
+                        question: "En Microsoft Excel, ¿qué función se utiliza para contar el número de celdas en un rango que cumplen con una condición específica?",
+                        options: ["CONTAR.SI.CONJUNTO", "SUMAR.SI", "PROMEDIO.SI", "CONTAR.SI"],
+                        correctAnswer: "CONTAR.SI",
+                        rationale: "La función `CONTAR.SI` se utiliza para contar celdas en un rango que cumplen con una única condición, como por ejemplo, contar cuántas celdas son mayores que 10.",
+                        hint: "La función de conteo más simple que utiliza una única condición."
+                    },
+                    {
+                        question: "En ofimática, ¿qué es un macro?",
+                        options: ["Una fórmula predefinida para realizar cálculos complejos.", "Un tipo de archivo para documentos con formatos específicos.", "Una secuencia de comandos o instrucciones que se almacenan y ejecutan para automatizar tareas repetitivas.", "Una hoja de cálculo muy grande que contiene más de 100.000 filas."],
+                        correctAnswer: "Una secuencia de comandos o instrucciones que se almacenan y ejecutan para automatizar tareas repetitivas.",
+                        rationale: "Un macro es una serie de instrucciones programadas que se pueden ejecutar de forma automática o con una simple acción, como pulsar un botón, para realizar tareas repetitivas.",
+                        hint: "Piensa en las tareas que realizas a menudo. ¿Cómo las podrías simplificar o automatizar?"
+                    },
+                    {
+                        question: "¿Qué es una 'plantilla' en un procesador de texto?",
+                        options: ["Un documento que contiene solo texto sin formato.", "Un documento preformateado que sirve como punto de partida para crear nuevos documentos.", "Un archivo de solo lectura que no se puede modificar.", "Un documento que se utiliza para crear copias de seguridad."],
+                        correctAnswer: "Un documento preformateado que sirve como punto de partida para crear nuevos documentos.",
+                        rationale: "Una plantilla es un modelo de documento con un formato y diseño predefinidos, que facilita la creación de documentos nuevos con un aspecto coherente y profesional.",
+                        hint: "Una plantilla es un 'esqueleto' sobre el cual se construye un documento final."
+                    },
+                    {
+                        question: "¿Qué atajo de teclado se utiliza para 'cortar' el texto seleccionado en la mayoría de las aplicaciones de oficina?",
+                        options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+                        correctAnswer: "Ctrl + X",
+                        rationale: "El atajo de teclado 'Ctrl + X' se utiliza para 'cortar' el texto o los objetos seleccionados, eliminándolos de su ubicación original y copiándolos al portapapeles.",
+                        hint: "La tecla 'X' se asemeja a unas tijeras, que sirven para 'cortar'."
+                    },
+                    {
+                        question: "En un programa de presentaciones como PowerPoint, ¿qué es una 'transición'?",
+                        options: ["El efecto visual que se aplica a un objeto en una diapositiva.", "El movimiento de un objeto de una posición a otra.", "El efecto visual que ocurre al pasar de una diapositiva a la siguiente.", "El efecto de sonido que se reproduce al cambiar de diapositiva."],
+                        correctAnswer: "El efecto visual que ocurre al pasar de una diapositiva a la siguiente.",
+                        rationale: "Una transición es el efecto de animación que se reproduce entre diapositivas durante una presentación para crear un cambio visual más dinámico.",
+                        hint: "Las 'transiciones' se aplican a las 'diapositivas' para hacerlas más fluidas."
+                    },
+                    {
+                        question: "En Microsoft Word, ¿qué función permite la creación de un mismo documento para varios destinatarios, personalizando la información de cada uno?",
+                        options: ["Combinar correspondencia", "Revisión de documentos", "Control de cambios", "Macro"],
+                        correctAnswer: "Combinar correspondencia",
+                        rationale: "La función 'combinar correspondencia' (Mail Merge) permite crear documentos personalizados, como cartas o etiquetas, para una lista de destinatarios a partir de una plantilla.",
+                        hint: "Piensa en la acción de 'combinar' una 'correspondencia' con una lista de datos."
+                    },
+                    {
+                        question: "¿Qué atajo de teclado se utiliza para 'pegar' el contenido del portapapeles?",
+                        options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + P"],
+                        correctAnswer: "Ctrl + V",
+                        rationale: "El atajo 'Ctrl + V' es la combinación universal para pegar el contenido que se encuentra en el portapapeles en la ubicación actual del cursor.",
+                        hint: "La tecla 'V' parece una flecha apuntando hacia abajo, lo que puede ayudar a recordar la acción de 'pegar' o 'colocar' algo."
+                    },
+                    {
+                        question: "¿Qué es un 'encabezado' en un documento de texto?",
+                        options: ["El texto que aparece al final de cada página.", "El margen superior de la página.", "El texto que aparece en la parte superior de cada página de un documento.", "Un título de sección dentro del cuerpo del texto."],
+                        correctAnswer: "El texto que aparece en la parte superior de cada página de un documento.",
+                        rationale: "Un encabezado es una sección de un documento que se repite en la parte superior de cada página, a menudo para incluir el título, el número de página o el nombre del autor.",
+                        hint: "La palabra 'encabezado' se refiere a la 'cabeza' o parte superior de la página."
+                    },
+                    {
+                        question: "En Microsoft Excel, ¿qué es un 'libro'?",
+                        options: ["Un archivo de solo lectura.", "Un conjunto de varias hojas de cálculo.", "Una sola hoja de cálculo.", "Una base de datos integrada."],
+                        correctAnswer: "Un conjunto de varias hojas de cálculo.",
+                        rationale: "En Excel, un 'libro' es el archivo que contiene una o más hojas de cálculo (worksheets), lo que permite organizar datos relacionados en un único archivo.",
+                        hint: "Un libro físico se compone de varias páginas, de forma similar a un libro de Excel y sus hojas."
+                    },
+                    {
+                        question: "¿Qué atajo de teclado se utiliza para 'buscar' texto en un documento?",
+                        options: ["Ctrl + F", "Ctrl + B", "Ctrl + S", "Ctrl + A"],
+                        correctAnswer: "Ctrl + F",
+                        rationale: "El atajo 'Ctrl + F' es la combinación estándar para abrir el cuadro de diálogo de 'buscar' en la mayoría de las aplicaciones, incluyendo navegadores y procesadores de texto.",
+                        hint: "La tecla 'F' es la primera letra de la palabra en inglés 'find' (buscar)."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Hardware y Componentes",
+                questions: [
+                    {
+                        question: "¿Cuál es el componente de hardware que se encarga de la comunicación entre la CPU, la memoria y el resto de dispositivos?",
+                        options: ["Placa base (Motherboard)", "Tarjeta gráfica (GPU)", "Fuente de alimentación", "Disco duro"],
+                        correctAnswer: "Placa base (Motherboard)",
+                        rationale: "La placa base es el circuito impreso principal que conecta todos los componentes internos de un ordenador, actuando como el principal canal de comunicación.",
+                        hint: "Piensa en el componente que 'une' todo lo demás en la computadora."
+                    },
+                    {
+                        question: "¿Qué tipo de memoria es volátil y almacena temporalmente los datos y programas que la CPU está utilizando en ese momento?",
+                        options: ["ROM", "Flash", "RAM", "SSD"],
+                        correctAnswer: "RAM",
+                        rationale: "La RAM (Random Access Memory) es la memoria principal de un sistema informático, donde se almacena de forma temporal la información y los programas que se están ejecutando.",
+                        hint: "Sus siglas significan 'memoria de acceso aleatorio'."
+                    },
+                    {
+                        question: "¿Qué dispositivo de almacenamiento no tiene partes móviles?",
+                        options: ["Disco duro magnético (HDD)", "Unidad de estado sólido (SSD)", "Disco óptico (CD/DVD)", "Disquete"],
+                        correctAnswer: "Unidad de estado sólido (SSD)",
+                        rationale: "A diferencia de los discos duros magnéticos, las unidades SSD utilizan memoria flash para almacenar datos, lo que elimina la necesidad de componentes mecánicos para leer o escribir información.",
+                        hint: "El nombre de este dispositivo indica que no se basa en componentes mecánicos, sino en un 'estado sólido'."
+                    },
+                    {
+                        question: "¿Qué función principal tiene la 'BIOS' de un ordenador?",
+                        options: ["Gestión del sistema operativo en ejecución.", "Control de la conectividad a Internet.", "Realizar pruebas de diagnóstico al encender el ordenador y cargar el sistema operativo.", "Almacenar datos de usuario a largo plazo."],
+                        correctAnswer: "Realizar pruebas de diagnóstico al encender el ordenador y cargar el sistema operativo.",
+                        rationale: "La BIOS (Basic Input/Output System) es un firmware que se ejecuta al encender el ordenador, realizando una serie de pruebas (POST) y preparando el hardware para que el sistema operativo pueda arrancar.",
+                        hint: "Es el primer software que se ejecuta al encender el ordenador."
+                    },
+                    {
+                        question: "¿Qué es un 'periférico de entrada'?",
+                        options: ["Un dispositivo que muestra información al usuario.", "Un dispositivo que permite introducir datos o comandos al ordenador.", "Un dispositivo que almacena datos de forma permanente.", "Un componente interno del ordenador."],
+                        correctAnswer: "Un dispositivo que permite introducir datos o comandos al ordenador.",
+                        rationale: "Los periféricos de entrada, como el teclado y el ratón, se utilizan para introducir información o controlar el ordenador.",
+                        hint: "La función de este dispositivo es 'entregar' información al sistema."
+                    },
+                    {
+                        question: "¿Qué mide la capacidad de un disco duro?",
+                        options: ["La velocidad de lectura y escritura.", "La cantidad de datos que puede almacenar.", "El tamaño físico del disco.", "El tipo de conexión que utiliza."],
+                        correctAnswer: "La cantidad de datos que puede almacenar.",
+                        rationale: "La capacidad de un disco duro se mide en bytes (normalmente gigabytes o terabytes) y representa el volumen total de información que puede ser almacenado en el dispositivo.",
+                        hint: "Se refiere al espacio de almacenamiento, no a la velocidad."
+                    },
+                    {
+                        question: "¿Qué componente se encarga de convertir la corriente eléctrica de la toma de pared en la corriente que el ordenador puede utilizar?",
+                        options: ["La tarjeta gráfica (GPU)", "La placa base (Motherboard)", "La fuente de alimentación (PSU)", "La CPU"],
+                        correctAnswer: "La fuente de alimentación (PSU)",
+                        rationale: "La fuente de alimentación (Power Supply Unit) es un componente de hardware que convierte la corriente alterna de la red eléctrica en corriente continua, que es el tipo de energía que los componentes internos del ordenador necesitan.",
+                        hint: "Su nombre en español es muy descriptivo de su función."
+                    },
+                    {
+                        question: "¿Cuál de los siguientes es un dispositivo de salida?",
+                        options: ["Teclado", "Ratón", "Escáner", "Impresora"],
+                        correctAnswer: "Impresora",
+                        rationale: "Una impresora es un dispositivo de salida porque recibe datos del ordenador y los convierte en un formato físico, mostrando la información al usuario.",
+                        hint: "Un dispositivo de salida es aquel que 'expulsa' información del sistema."
+                    },
+                    {
+                        question: "¿Qué es la 'overclocking' de un procesador?",
+                        options: ["La reducción de la velocidad del procesador para ahorrar energía.", "El proceso de aumentar la velocidad de reloj de un procesador por encima de su valor de fábrica.", "La instalación de un procesador más rápido.", "El proceso de enfriar el procesador."],
+                        correctAnswer: "El proceso de aumentar la velocidad de reloj de un procesador por encima de su valor de fábrica.",
+                        rationale: "El overclocking es una técnica avanzada que consiste en aumentar la frecuencia de reloj de los componentes (como la CPU) para mejorar su rendimiento, aunque puede generar más calor y requerir un mejor sistema de enfriamiento.",
+                        hint: "La palabra 'over' en inglés significa 'por encima de'."
+                    },
+                    {
+                        question: "¿Qué puerto se utiliza principalmente para conectar periféricos como teclados, ratones y memorias flash?",
+                        options: ["HDMI", "VGA", "Ethernet", "USB"],
+                        correctAnswer: "USB",
+                        rationale: "USB (Universal Serial Bus) es el puerto más común para la conexión de una amplia variedad de periféricos, desde dispositivos de almacenamiento hasta impresoras y cámaras.",
+                        hint: "La 'U' de sus siglas significa 'Universal'."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Legislación I",
+                questions: [
+                    {
+                        question: "Según la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, ¿qué principio de la actuación administrativa electrónica establece que las Administraciones Públicas deberán asegurar la identidad de los interesados y de los órganos o personal de las Administraciones Públicas actuantes?",
+                        options: ["Principio de transparencia", "Principio de autenticidad", "Principio de interoperabilidad", "Principio de proporcionalidad"],
+                        correctAnswer: "Principio de autenticidad",
+                        rationale: "El principio de autenticidad garantiza la identidad de los actores y la integridad de los documentos y trámites electrónicos, asegurando que se corresponden con la persona o entidad que los firma.",
+                        hint: "El término clave es 'identidad'. ¿Qué palabra en las opciones se relaciona con la confirmación de la identidad?"
+                    },
+                    {
+                        question: "De acuerdo con el Esquema Nacional de Seguridad (ENS), ¿qué principio obliga a gestionar los riesgos para la seguridad de la información?",
+                        options: ["Principio de trazabilidad", "Principio de control de acceso", "Principio de gestión de riesgos", "Principio de disponibilidad"],
+                        correctAnswer: "Principio de gestión de riesgos",
+                        rationale: "El principio de gestión de riesgos establece la necesidad de analizar y tratar los riesgos que afectan a la seguridad de la información para garantizar la continuidad del servicio.",
+                        hint: "El nombre del principio es muy descriptivo de su función."
+                    },
+                    {
+                        question: "Según el ENS, ¿qué dimensión de seguridad se refiere a la protección de los datos frente a modificaciones no autorizadas?",
+                        options: ["Confidencialidad", "Integridad", "Disponibilidad", "Trazabilidad"],
+                        correctAnswer: "Integridad",
+                        rationale: "La integridad se relaciona con la protección de la información contra su alteración o destrucción no autorizada.",
+                        hint: "Se refiere a la 'completitud' y 'precisión' de los datos."
+                    },
+                    {
+                        question: "Según la Ley 39/2015, ¿cuál de los siguientes es un derecho de las personas en sus relaciones con las Administraciones Públicas?",
+                        options: ["Aportar documentos que no sean requeridos.", "A elegir libremente el canal de comunicación.", "A no aportar documentos que ya obren en poder de la Administración.", "A que se les notifique solo por vía telemática."],
+                        correctAnswer: "A no aportar documentos que ya obren en poder de la Administración.",
+                        rationale: "La Ley 39/2015 establece que los interesados tienen derecho a no presentar documentos que ya hayan sido aportados por ellos mismos o que ya estén en posesión de la Administración Pública actuante.",
+                        hint: "Este derecho busca simplificar los trámites y evitar la duplicación de documentos."
+                    },
+                    {
+                        question: "¿Qué establece el principio de 'proporcionalidad' en el ENS?",
+                        options: ["Que las medidas de seguridad deben ser proporcionales a los riesgos a los que se enfrentan.", "Que todas las medidas de seguridad deben ser de alto nivel.", "Que el nivel de seguridad debe ser el mismo para todas las Administraciones Públicas.", "Que las medidas de seguridad no deben afectar al funcionamiento normal de los servicios."],
+                        correctAnswer: "Que las medidas de seguridad deben ser proporcionales a los riesgos a los que se enfrentan.",
+                        rationale: "El principio de proporcionalidad establece que la implementación de las medidas de seguridad debe ser adecuada a la naturaleza de la información y a los riesgos que la amenazan.",
+                        hint: "Las medidas deben ser 'justas' y 'adecuadas' a la situación de riesgo."
+                    },
+                    {
+                        question: "¿Cuál es el objetivo principal del Esquema Nacional de Seguridad (ENS)?",
+                        options: ["Establecer un marco común de seguridad para las empresas privadas.", "Garantizar la seguridad de los sistemas de información de las Administraciones Públicas.", "Promover el uso de software libre en la Administración.", "Regular el uso de Internet en los edificios públicos."],
+                        correctAnswer: "Garantizar la seguridad de los sistemas de información de las Administraciones Públicas.",
+                        rationale: "El ENS tiene como objetivo establecer los principios básicos y los requisitos mínimos para la seguridad de la información tratada en el ámbito de la Administración Pública.",
+                        hint: "El ENS se aplica a la seguridad de la información y los servicios electrónicos de la Administración."
+                    },
+                    {
+                        question: "Según la Ley 39/2015, ¿en qué formato deben presentarse los documentos electrónicos a la Administración?",
+                        options: ["Solo en PDF", "En cualquier formato que la Administración pueda leer.", "En formatos estandarizados y de uso generalizado.", "Solo en formatos de texto plano."],
+                        correctAnswer: "En formatos estandarizados y de uso generalizado.",
+                        rationale: "La Ley 39/2015 fomenta el uso de formatos electrónicos que sean interoperables y de uso común para facilitar la comunicación y el acceso a la información.",
+                        hint: "Los formatos deben ser fáciles de abrir y utilizar para cualquier persona."
+                    },
+                    {
+                        question: "¿Qué es el 'intercambio de datos' según el ENS?",
+                        options: ["La comunicación entre dos Administraciones Públicas.", "La transmisión de información entre sistemas.", "El proceso de exportar datos a un archivo.", "La copia de datos a un dispositivo externo."],
+                        correctAnswer: "La transmisión de información entre sistemas.",
+                        rationale: "El ENS define el 'intercambio de datos' como la transmisión de información estructurada entre diferentes sistemas de información para facilitar la interoperabilidad.",
+                        hint: "Se refiere al 'flujo' de información de un sistema a otro."
+                    },
+                    {
+                        question: "¿Qué principio de la seguridad de la información se centra en garantizar que los datos no han sido modificados de forma no autorizada?",
+                        options: ["Confidencialidad", "Integridad", "Disponibilidad", "Autenticidad"],
+                        correctAnswer: "Integridad",
+                        rationale: "La integridad es la propiedad que asegura que los datos no han sido alterados de forma indebida o accidental durante su transmisión o almacenamiento.",
+                        hint: "Piensa en la 'veracidad' o 'inmutabilidad' de los datos."
+                    },
+                    {
+                        question: "Según la Ley 39/2015, ¿cuándo se considera que una notificación electrónica ha sido rechazada?",
+                        options: ["Cuando el interesado no accede a ella en un plazo de 10 días naturales desde su puesta a disposición.", "Cuando el interesado accede y la rechaza expresamente.", "Cuando el interesado accede a ella en un plazo de 3 días hábiles.", "Cuando la notificación se envía a una dirección de correo electrónico errónea."],
+                        correctAnswer: "Cuando el interesado no accede a ella en un plazo de 10 días naturales desde su puesta a disposición.",
+                        rationale: "La Ley 39/2015 establece que las notificaciones electrónicas se considerarán rechazadas cuando el interesado o su representante no accedan a su contenido en el plazo máximo de 10 días naturales a partir de la fecha de puesta a disposición de la notificación.",
+                        hint: "El rechazo es tácito, por omisión, y el plazo es de 10 días."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Redes y Seguridad",
+                questions: [
+                    {
+                        question: "¿Cuál es la función principal de un 'firewall' en una red informática?",
+                        options: ["Aumentar la velocidad de la conexión a internet.", "Proteger la red de accesos no autorizados.", "Realizar copias de seguridad de los datos.", "Optimizar el uso del disco duro."],
+                        correctAnswer: "Proteger la red de accesos no autorizados.",
+                        rationale: "La función principal de un firewall es monitorear y filtrar el tráfico de red entrante y saliente basándose en reglas de seguridad para proteger contra amenazas.",
+                        hint: "Piensa en un 'muro de fuego' en el contexto de la seguridad de la red."
+                    },
+                    {
+                        question: "¿Qué protocolo se utiliza para la transferencia segura de archivos entre un cliente y un servidor en una red TCP/IP?",
+                        options: ["FTP", "HTTP", "SMTP", "SFTP"],
+                        correctAnswer: "SFTP",
+                        rationale: "SFTP (Secure File Transfer Protocol) es una versión segura de FTP que utiliza SSH (Secure Shell) para la transferencia de datos y la autenticación.",
+                        hint: "Busca la versión 'segura' del protocolo de transferencia de archivos."
+                    },
+                    {
+                        question: "¿Qué tipo de software malicioso se propaga a través de la red de forma autónoma, sin necesidad de un programa anfitrión?",
+                        options: ["Virus", "Troyano", "Gusano (Worm)", "Spyware"],
+                        correctAnswer: "Gusano (Worm)",
+                        rationale: "Un gusano es un tipo de malware que se replica y se propaga de forma autónoma a través de la red, explotando vulnerabilidades de seguridad sin necesidad de ser adjuntado a un archivo o programa.",
+                        hint: "Su nombre se asemeja a un animal que se 'arrastra' por sí solo."
+                    },
+                    {
+                        question: "¿Qué es la 'criptografía'?",
+                        options: ["La ciencia de descifrar mensajes secretos.", "El estudio de la seguridad de las redes informáticas.", "El arte y la ciencia de cifrar y descifrar información para protegerla.", "El proceso de ocultar archivos en un sistema."],
+                        correctAnswer: "El arte y la ciencia de cifrar y descifrar información para protegerla.",
+                        rationale: "La criptografía es la práctica y el estudio de técnicas para la comunicación segura en presencia de adversarios, mediante el uso de algoritmos de cifrado.",
+                        hint: "Se relaciona con el 'cifrado' de datos."
+                    },
+                    {
+                        question: "¿Qué es un 'ataque de fuerza bruta'?",
+                        options: ["Un ataque que utiliza ingeniería social para obtener contraseñas.", "Un método de ataque que intenta todas las posibles combinaciones de contraseñas hasta encontrar la correcta.", "Un ataque que aprovecha las vulnerabilidades de un sistema.", "Un ataque que utiliza un software malicioso para robar datos."],
+                        correctAnswer: "Un método de ataque que intenta todas las posibles combinaciones de contraseñas hasta encontrar la correcta.",
+                        rationale: "Un ataque de fuerza bruta consiste en probar de manera sistemática todas las posibles combinaciones de contraseñas o claves para acceder a un sistema.",
+                        hint: "El ataque utiliza la fuerza y la repetición para 'adivinar' la contraseña."
+                    },
+                    {
+                        question: "¿Cuál de los siguientes es un método de autenticación biométrica?",
+                        options: ["Contraseña", "PIN", "Huella dactilar", "Token de seguridad"],
+                        correctAnswer: "Huella dactilar",
+                        rationale: "La autenticación biométrica utiliza características físicas o conductuales únicas de una persona (como huellas dactilares, iris o voz) para verificar su identidad.",
+                        hint: "El método de autenticación se basa en una parte del cuerpo."
+                    },
+                    {
+                        question: "En una red, ¿qué significa 'VPN'?",
+                        options: ["Virtual Personal Network", "Virtual Public Network", "Virtual Private Network", "Very Personal Network"],
+                        correctAnswer: "Virtual Private Network",
+                        rationale: "Una VPN (Virtual Private Network) crea una conexión segura y cifrada entre el usuario y la red, permitiendo un acceso privado a través de una red pública como Internet.",
+                        hint: "El nombre indica que es una 'red privada virtual'."
+                    },
+                    {
+                        question: "¿Qué es un 'sniffer' de red?",
+                        options: ["Un software que optimiza la velocidad de conexión.", "Un dispositivo de seguridad que bloquea el tráfico malicioso.", "Un programa que monitorea y captura el tráfico de datos en una red.", "Un tipo de virus que se propaga por la red."],
+                        correctAnswer: "Un programa que monitorea y captura el tráfico de datos en una red.",
+                        rationale: "Un sniffer (analizador de paquetes) es una herramienta que se utiliza para interceptar y registrar el tráfico de datos que viaja a través de una red, lo que puede ser útil para la administración de la red o para fines maliciosos.",
+                        hint: "La palabra 'sniffer' en inglés significa 'rastreador' o 'analizador'."
+                    },
+                    {
+                        question: "¿Cuál es el propósito del 'cifrado asimétrico'?",
+                        options: ["Utiliza la misma clave para cifrar y descifrar datos.", "Utiliza una clave pública para cifrar y una clave privada para descifrar.", "Es un método que no requiere claves.", "Se utiliza solo para el cifrado de archivos de texto."],
+                        correctAnswer: "Utiliza una clave pública para cifrar y una clave privada para descifrar.",
+                        rationale: "El cifrado asimétrico, también conocido como criptografía de clave pública, utiliza un par de claves: una pública para cifrar y una privada para descifrar. La clave pública se puede compartir libremente, mientras que la privada se mantiene secreta.",
+                        hint: "El método usa dos claves distintas, no una sola."
+                    },
+                    {
+                        question: "¿Qué se conoce como un 'agujero de seguridad' en un software?",
+                        options: ["Una función que permite el acceso no autorizado a un sistema.", "Un error o fallo en el diseño del software que puede ser explotado por un atacante.", "Un tipo de virus que se instala en el software.", "Un archivo de log que registra errores."],
+                        correctAnswer: "Un error o fallo en el diseño del software que puede ser explotado por un atacante.",
+                        rationale: "Un agujero de seguridad, o 'vulnerabilidad', es una debilidad en el software que un atacante puede explotar para comprometer la seguridad del sistema.",
+                        hint: "Es una debilidad en el código que los atacantes pueden 'explotar'."
+                    }
+                ]
+            },
+            {
+                title: "Examen de Ofimática II",
+                questions: [
+                    {
+                        question: "¿Qué es un 'hipervínculo' en un documento de texto?",
+                        options: ["Un estilo de fuente especial.", "Un enlace que te lleva a otra parte del mismo documento o a una página web externa.", "Una imagen insertada en el texto.", "Una tabla con datos específicos."],
+                        correctAnswer: "Un enlace que te lleva a otra parte del mismo documento o a una página web externa.",
+                        rationale: "Un hipervínculo es un elemento en un documento electrónico que hace referencia a otro recurso.",
+                        hint: "La palabra 'vínculo' se relaciona con la acción de 'conectar'."
+                    },
+                    {
+                        question: "¿Qué atajo de teclado se utiliza comúnmente en procesadores de texto para deshacer la última acción?",
+                        options: ["Ctrl + C", "Ctrl + V", "Ctrl + Z", "Ctrl + X"],
+                        correctAnswer: "Ctrl + Z",
+                        rationale: "El atajo de teclado 'Ctrl + Z' (o 'Cmd + Z' en macOS) se utiliza de manera universal para deshacer una acción reciente.",
+                        hint: "Piensa en la acción de 'volver atrás'."
+                    },
+                    {
+                        question: "¿Qué es una 'barra de herramientas'?",
+                        options: ["Un menú desplegable con opciones de formato.", "Una fila o columna de botones e iconos que permiten acceder rápidamente a funciones comunes de una aplicación.", "La barra de estado que muestra el progreso de una tarea.", "La barra de título que muestra el nombre del archivo."],
+                        correctAnswer: "Una fila o columna de botones e iconos que permiten acceder rápidamente a funciones comunes de una aplicación.",
+                        rationale: "La barra de herramientas es un componente de la interfaz de usuario que proporciona acceso rápido a las funciones más utilizadas de un programa a través de iconos y botones.",
+                        hint: "Es un conjunto de herramientas visuales que se encuentran en la parte superior o lateral de la ventana del programa."
+                    },
+                    {
+                        question: "¿Qué formato de archivo se utiliza comúnmente para hojas de cálculo?",
+                        options: ["DOCX", "PDF", "XLSX", "PPTX"],
+                        correctAnswer: "XLSX",
+                        rationale: "El formato XLSX es el formato de archivo por defecto para las hojas de cálculo de Microsoft Excel desde la versión 2007. DOCX es para documentos de texto, PPTX para presentaciones y PDF para documentos portables.",
+                        hint: "El nombre del formato incluye las letras de la aplicación de hojas de cálculo."
+                    },
+                    {
+                        question: "¿Qué es una 'tabla' en un documento de texto?",
+                        options: ["Un gráfico que representa datos numéricos.", "Un conjunto de filas y columnas para organizar la información.", "Una lista de elementos sin formato.", "Un bloque de texto que se mueve por la página."],
+                        correctAnswer: "Un conjunto de filas y columnas para organizar la información.",
+                        rationale: "Una tabla es una herramienta en los procesadores de texto y otros programas para organizar datos en celdas, filas y columnas, facilitando la presentación de información estructurada.",
+                        hint: "Piensa en la estructura de una hoja de cálculo, pero dentro de un documento."
+                    },
+                    {
+                        question: "¿Qué atajo de teclado se utiliza para 'seleccionar todo' el contenido de un documento?",
+                        options: ["Ctrl + A", "Ctrl + S", "Ctrl + E", "Ctrl + L"],
+                        correctAnswer: "Ctrl + A",
+                        rationale: "El atajo 'Ctrl + A' es la combinación estándar para seleccionar todo el contenido de un documento o ventana activa en la mayoría de las aplicaciones de Windows.",
+                        hint: "La tecla 'A' es la primera letra de la palabra en inglés 'all' (todo)."
+                    },
+                    {
+                        question: "¿Qué es el 'sangrado' en un documento de texto?",
+                        options: ["El espacio que hay entre líneas de texto.", "La distancia entre el texto y el borde de la página.", "El espacio adicional que se inserta al principio de la primera línea de un párrafo.", "El tamaño de la fuente."],
+                        correctAnswer: "El espacio adicional que se inserta al principio de la primera línea de un párrafo.",
+                        rationale: "El sangrado o indentación es un espacio que se añade al comienzo de un párrafo para indicar visualmente el inicio de una nueva sección de texto.",
+                        hint: "Es el espacio que 'hunde' el inicio de un párrafo hacia la derecha."
+                    },
+                    {
+                        question: "¿Qué es una 'celda' en una hoja de cálculo?",
+                        options: ["Una fila completa.", "Una columna completa.", "La intersección de una fila y una columna donde se introducen los datos.", "Una fórmula."],
+                        correctAnswer: "La intersección de una fila y una columna donde se introducen los datos.",
+                        rationale: "Una celda es la unidad fundamental de una hoja de cálculo, donde se introducen y se almacenan los datos individuales.",
+                        hint: "Es la 'caja' individual donde se introduce la información."
+                    },
+                    {
+                        question: "¿Qué atajo de teclado se utiliza para 'guardar' un documento?",
+                        options: ["Ctrl + S", "Ctrl + G", "Ctrl + W", "Ctrl + D"],
+                        correctAnswer: "Ctrl + S",
+                        rationale: "El atajo 'Ctrl + S' es la combinación estándar para guardar un archivo en la mayoría de las aplicaciones de software, incluyendo las de ofimática.",
+                        hint: "La tecla 'S' es la primera letra de la palabra en inglés 'save' (guardar)."
+                    },
+                    {
+                        question: "¿Qué es una 'presentación de diapositivas'?",
+                        options: ["Un documento de texto con imágenes.", "Una hoja de cálculo interactiva.", "Un conjunto de diapositivas que se proyectan de forma secuencial, a menudo con efectos y animaciones.", "Un video corto."],
+                        correctAnswer: "Un conjunto de diapositivas que se proyectan de forma secuencial, a menudo con efectos y animaciones.",
+                        rationale: "Una presentación de diapositivas es un formato que se utiliza para comunicar ideas e información de manera visual y organizada, usando una serie de 'diapositivas' que se muestran en secuencia.",
+                        hint: "Piensa en el formato que se utiliza para exponer un tema en una reunión o clase."
+                    }
+                ]
+            },
+        ];
+
+        let currentQuizData = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+        
+        const html = document.documentElement;
+        const mainBody = document.body;
+        const menuContainer = document.getElementById('menu-container');
+        const menuButtonsContainer = document.getElementById('menu-buttons');
+        const examContainer = document.getElementById('exam-container');
+        const examTitle = document.getElementById('exam-title');
+        const questionTitle = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const nextBtn = document.getElementById('next-btn');
+        const showSolutionBtn = document.getElementById('show-solution-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const backToMenuBtn = document.getElementById('back-to-menu-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const increaseTextBtn = document.getElementById('increase-text-btn');
+        const decreaseTextBtn = document.getElementById('decrease-text-btn');
+        const darkModeBtn = document.getElementById('dark-mode-btn');
+
+        let currentFontSize = 16;
+        const minFontSize = 14;
+        const maxFontSize = 24;
+
+        /**
+         * Actualiza el ancho de la barra de progreso en base a la pregunta actual.
+         */
+        function updateProgressBar() {
+            const progress = (currentQuestionIndex / currentQuizData.questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        /**
+         * Ajusta el tamaño de la fuente de todo el cuerpo del documento.
+         * @param {number} size El nuevo tamaño de la fuente en píxeles.
+         */
+        function setFontSize(size) {
+            mainBody.style.fontSize = `${size}px`;
+        }
+
+        /**
+         * Alterna el modo oscuro/claro de la interfaz.
+         */
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+        }
+
+        /**
+         * Muestra el menú principal y oculta el examen.
+         */
+        function showMainMenu() {
+            examContainer.classList.add('hidden');
+            menuContainer.classList.remove('hidden');
+            progressBar.style.width = '0%';
+            answered = false;
+        }
+
+        /**
+         * Inicia un examen específico.
+         * @param {number} quizIndex El índice del examen a iniciar.
+         */
+        function startQuiz(quizIndex) {
+            currentQuizData = allQuizzes[quizIndex];
+            currentQuestionIndex = 0;
+            score = 0;
+            answered = false;
+            
+            menuContainer.classList.add('hidden');
+            examContainer.classList.remove('hidden');
+            backToMenuBtn.classList.remove('hidden');
+            examTitle.textContent = currentQuizData.title;
+            renderQuestion();
+        }
+
+        /**
+         * Renderiza la pregunta actual en la interfaz.
+         */
+        function renderQuestion() {
+            updateProgressBar();
+            if (currentQuestionIndex < currentQuizData.questions.length) {
+                const question = currentQuizData.questions[currentQuestionIndex];
+                questionTitle.textContent = `Pregunta ${currentQuestionIndex + 1} de ${currentQuizData.questions.length}: ${question.question}`;
+                optionsContainer.innerHTML = '';
+                feedbackContainer.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                showSolutionBtn.classList.remove('hidden');
+                answered = false;
+
+                // Crea un botón para cada opción de respuesta
+                question.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.className = "w-full text-left p-4 rounded-lg bg-gray-100 border border-gray-300 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:focus:ring-blue-400";
+                    button.onclick = () => handleAnswer(option);
+                    optionsContainer.appendChild(button);
+                });
+            } else {
+                showResults();
+            }
+        }
+
+        /**
+         * Maneja la respuesta del usuario al seleccionar una opción.
+         * @param {string} selectedOption La opción de respuesta seleccionada por el usuario.
+         */
+        function handleAnswer(selectedOption) {
+            if (answered) return;
+
+            answered = true;
+            const question = currentQuizData.questions[currentQuestionIndex];
+            const isCorrect = (selectedOption === question.correctAnswer);
+            
+            // Desactiva los botones y muestra la respuesta correcta
+            Array.from(optionsContainer.children).forEach(button => {
+                button.disabled = true;
+                if (button.textContent === question.correctAnswer) {
+                    button.classList.add('bg-green-100', 'border-green-500');
+                } else if (button.textContent === selectedOption) {
+                    button.classList.add('bg-red-100', 'border-red-500');
+                }
+                button.classList.remove('hover:bg-gray-200', 'dark:hover:bg-gray-600');
+            });
+
+            // Muestra el feedback de la respuesta
+            feedbackContainer.classList.remove('hidden');
+            if (isCorrect) {
+                score++;
+                feedbackContainer.classList.add('bg-green-50', 'border-green-500');
+                feedbackContainer.classList.remove('bg-red-50', 'border-red-500');
+                feedbackTitle.textContent = "¡Respuesta correcta!";
+                feedbackMessage.textContent = question.rationale;
+            } else {
+                feedbackContainer.classList.add('bg-red-50', 'border-red-500');
+                feedbackContainer.classList.remove('bg-green-50', 'border-green-500');
+                feedbackTitle.textContent = "Respuesta incorrecta.";
+                feedbackMessage.textContent = `La respuesta correcta es: ${question.correctAnswer}. ${question.rationale}`;
+            }
+
+            nextBtn.classList.remove('hidden');
+            showSolutionBtn.classList.add('hidden');
+        }
+
+        /**
+         * Muestra la solución correcta sin que el usuario haya respondido.
+         */
+        function showSolution() {
+            if (answered) return;
+
+            const question = currentQuizData.questions[currentQuestionIndex];
+            
+            Array.from(optionsContainer.children).forEach(button => {
+                button.disabled = true;
+                if (button.textContent === question.correctAnswer) {
+                    button.classList.add('bg-blue-100', 'border-blue-500');
+                }
+                button.classList.remove('hover:bg-gray-200', 'dark:hover:bg-gray-600');
+            });
+
+            feedbackContainer.classList.remove('hidden');
+            feedbackContainer.classList.add('bg-blue-50', 'border-blue-500');
+            feedbackContainer.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+            feedbackTitle.textContent = "Solución:";
+            feedbackMessage.textContent = question.rationale;
+            nextBtn.classList.remove('hidden');
+            showSolutionBtn.classList.add('hidden');
+        }
+
+        /**
+         * Pasa a la siguiente pregunta.
+         */
+        function nextQuestion() {
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+        
+        /**
+         * Muestra los resultados finales del examen.
+         */
+        function showResults() {
+            updateProgressBar();
+            questionTitle.textContent = "Examen Finalizado";
+            optionsContainer.innerHTML = `<p class="text-xl text-center font-semibold">Has respondido ${score} de ${currentQuizData.questions.length} preguntas correctamente.</p>`;
+            feedbackContainer.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            showSolutionBtn.classList.add('hidden');
+            restartBtn.classList.remove('hidden');
+        }
+
+        /**
+         * Reinicia el examen desde la primera pregunta.
+         */
+        function restartExam() {
+            currentQuestionIndex = 0;
+            score = 0;
+            restartBtn.classList.add('hidden');
+            renderQuestion();
+        }
+
+        nextBtn.addEventListener('click', nextQuestion);
+        showSolutionBtn.addEventListener('click', showSolution);
+        restartBtn.addEventListener('click', restartExam);
+        backToMenuBtn.addEventListener('click', showMainMenu);
+        darkModeBtn.addEventListener('click', toggleDarkMode);
+
+        // Event listeners para los botones de ajuste de texto
+        increaseTextBtn.addEventListener('click', () => {
+            if (currentFontSize < maxFontSize) {
+                currentFontSize += 2;
+                setFontSize(currentFontSize);
+            }
+        });
+
+        decreaseTextBtn.addEventListener('click', () => {
+            if (currentFontSize > minFontSize) {
+                currentFontSize -= 2;
+                setFontSize(currentFontSize);
+            }
+        });
+
+        /**
+         * Genera dinámicamente los botones del menú.
+         */
+        function renderMainMenu() {
+            allQuizzes.forEach((quiz, index) => {
+                const button = document.createElement('button');
+                button.textContent = quiz.title;
+                button.className = "menu-btn w-full p-4 text-center rounded-lg bg-gray-100 border border-gray-300 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
+                button.onclick = () => startQuiz(index);
+                menuButtonsContainer.appendChild(button);
+            });
+        }
+
+        // Inicializa el menú al cargar la página
+        renderMainMenu();
+    </script>
+
+</body>
+</html>
+
