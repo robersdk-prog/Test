@@ -11,254 +11,258 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Color de fondo claro */
+            background-color: #f3f4f6; /* Color de fondo claro por defecto */
             color: #1f2937;
         }
+
+        /* Configuración del modo oscuro usando la clase 'dark' de Tailwind */
+        .dark body {
+            background-color: #1f2937;
+            color: #f3f4f6;
+        }
+
+        .dark #exam-container, .dark #menu-container {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+        
+        .dark #main-title, .dark h2, .dark p {
+            color: #e5e7eb;
+        }
+        
+        .dark .menu-btn {
+            background-color: #4b5563;
+            border-color: #6b7280;
+            color: #e5e7eb;
+        }
+
+        .dark .menu-btn:hover {
+            background-color: #6b7280;
+        }
+
+        .dark #options-container button {
+            background-color: #4b5563;
+            border-color: #6b7280;
+            color: #e5e7eb;
+        }
+
+        .dark #options-container button:hover {
+            background-color: #6b7280;
+        }
+
+        .dark #options-container .bg-green-100 { background-color: #10b981; }
+        .dark #options-container .bg-red-100 { background-color: #ef4444; }
+        .dark #options-container .bg-blue-100 { background-color: #3b82f6; }
+
+        .dark #feedback-container.bg-green-50 { background-color: #047857; }
+        .dark #feedback-container.bg-red-50 { background-color: #b91c1c; }
+        .dark #feedback-container.bg-blue-50 { background-color: #2563eb; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 sm:p-6">
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 text-base">
 
-    <!-- Contenedor principal del examen -->
-    <div id="exam-container" class="bg-white shadow-xl rounded-lg p-6 sm:p-8 w-full max-w-2xl border border-gray-200">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Simulacro de Examen Informática C1</h1>
-        <div id="question-card" class="mb-4">
-            <!-- Título de la pregunta actual -->
-            <h2 id="question-title" class="text-xl font-semibold mb-4 text-gray-700"></h2>
-            <!-- Contenedor para las opciones de respuesta -->
-            <div id="options-container" class="space-y-3"></div>
-        </div>
-        
-        <!-- Contenedor para mostrar la retroalimentación y la explicación -->
-        <div id="feedback-container" class="mt-6 mb-4 p-4 rounded-lg hidden">
-            <h3 id="feedback-title" class="text-lg font-bold"></h3>
-            <p id="feedback-message" class="text-base mt-2"></p>
+    <!-- Contenedor principal para el menú y el examen -->
+    <div id="main-content" class="w-full max-w-2xl">
+        <!-- Contenedor del menú principal -->
+        <div id="menu-container" class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full border border-gray-200">
+            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200" id="main-title">Simulacro de Exámenes Informática C1</h1>
+            <p class="text-center text-gray-700 dark:text-gray-300 mb-6">Selecciona un examen para empezar:</p>
+            <div id="menu-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
         </div>
 
-        <!-- Botones de navegación -->
-        <div id="buttons-container" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 justify-end mt-6">
-            <button id="next-btn" class="bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hidden">Siguiente</button>
-            <button id="show-solution-btn" class="bg-gray-400 text-gray-800 font-medium py-3 px-6 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">Mostrar Solución</button>
-            <button id="restart-btn" class="bg-red-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-700 transition-colors duration-200 hidden">Reiniciar Examen</button>
+        <!-- Contenedor del examen (inicialmente oculto) -->
+        <div id="exam-container" class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full border border-gray-200 hidden">
+            <!-- Contenedor superior para la barra de progreso y los botones de texto/modo -->
+            <div class="flex justify-between items-center mb-6">
+                <!-- Barra de progreso -->
+                <div id="progress-container" class="w-full h-2 bg-gray-200 rounded-full overflow-hidden mr-4 dark:bg-gray-700">
+                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500 ease-out" style="width: 0%;"></div>
+                </div>
+                
+                <!-- Botones de ajuste de tamaño de texto y modo oscuro -->
+                <div class="flex space-x-2">
+                    <button id="decrease-text-btn" class="bg-gray-400 text-gray-800 font-medium p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button id="increase-text-btn" class="bg-gray-400 text-gray-800 font-medium p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button id="dark-mode-btn" class="bg-gray-400 text-gray-800 font-medium p-2 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-200" id="exam-title"></h1>
+            
+            <div id="question-card" class="mb-4">
+                <!-- Título de la pregunta actual -->
+                <h2 id="question-title" class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-300"></h2>
+                <!-- Contenedor para las opciones de respuesta -->
+                <div id="options-container" class="space-y-3"></div>
+            </div>
+            
+            <!-- Contenedor para mostrar la retroalimentación y la explicación -->
+            <div id="feedback-container" class="mt-6 mb-4 p-4 rounded-lg hidden">
+                <h3 id="feedback-title" class="text-lg font-bold"></h3>
+                <p id="feedback-message" class="text-base mt-2"></p>
+            </div>
+
+            <!-- Botones de navegación -->
+            <div id="buttons-container" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 justify-end items-center mt-6">
+                <button id="next-btn" class="bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hidden">Siguiente</button>
+                <button id="show-solution-btn" class="bg-gray-400 text-gray-800 font-medium py-3 px-6 rounded-lg hover:bg-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">Mostrar Solución</button>
+                <button id="restart-btn" class="bg-red-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-red-700 transition-colors duration-200 hidden">Reiniciar Examen</button>
+                <button id="back-to-menu-btn" class="bg-gray-400 text-gray-800 font-medium py-3 px-6 rounded-lg hover:bg-gray-500 transition-colors duration-200 hidden">Volver al Menú</button>
+            </div>
         </div>
     </div>
 
     <!-- Script de JavaScript para la lógica del examen -->
     <script>
-        const quizData = [
+        const allQuizzes = [
             {
-                question: "¿Cuál de los siguientes no es un protocolo de la capa de transporte del modelo TCP/IP?",
-                options: ["TCP (Transmission Control Protocol)", "UDP (User Datagram Protocol)", "ARP (Address Resolution Protocol)", "SCTP (Stream Control Transmission Protocol)"],
-                correctAnswer: "ARP (Address Resolution Protocol)",
-                rationale: "El ARP opera en la capa de enlace de datos (capa 2) y se utiliza para traducir direcciones IP en direcciones MAC. Por lo tanto, no es un protocolo de la capa de transporte.",
-                hint: "Piensa en el propósito de cada protocolo. ¿Cuál de ellos se encarga de la traducción de direcciones en la red local?"
+                title: "Examen de Redes y Protocolos",
+                questions: [
+                    {
+                        question: "¿Cuál de los siguientes no es un protocolo de la capa de transporte del modelo TCP/IP?",
+                        options: ["TCP (Transmission Control Protocol)", "UDP (User Datagram Protocol)", "ARP (Address Resolution Protocol)", "SCTP (Stream Control Transmission Protocol)"],
+                        correctAnswer: "ARP (Address Resolution Protocol)",
+                        rationale: "El ARP opera en la capa de enlace de datos (capa 2) y se utiliza para traducir direcciones IP en direcciones MAC. Por lo tanto, no es un protocolo de la capa de transporte, que se encuentra en la capa 4.",
+                        hint: "Piensa en el propósito de cada protocolo. ¿Cuál de ellos se encarga de la traducción de direcciones en la red local?"
+                    },
+                    {
+                        question: "¿Qué tipo de ataque informático se basa en el envío masivo de peticiones a un servidor para sobrecargarlo y dejarlo inoperativo?",
+                        options: ["Phishing", "DDoS (Distributed Denial of Service)", "Man-in-the-Middle (MitM)", "Ransomware"],
+                        correctAnswer: "DDoS (Distributed Denial of Service)",
+                        rationale: "Un ataque DDoS utiliza múltiples sistemas para enviar peticiones masivas a un objetivo, colapsando su servicio.",
+                        hint: "El nombre del ataque describe su propósito: negar el servicio de manera distribuida."
+                    },
+                    {
+                        question: "¿Qué protocolo se utiliza para la resolución de nombres de dominio a direcciones IP?",
+                        options: ["HTTP", "FTP", "DNS", "SMTP"],
+                        correctAnswer: "DNS",
+                        rationale: "DNS (Domain Name System) es el protocolo que traduce los nombres de dominio legibles para humanos (ej. www.ejemplo.com) en direcciones IP numéricas que las computadoras pueden usar para comunicarse.",
+                        hint: "Su nombre se relaciona directamente con el sistema de nombres de dominio."
+                    },
+                    {
+                        question: "¿Cuál es el puerto por defecto para el protocolo HTTP?",
+                        options: ["21", "25", "80", "443"],
+                        correctAnswer: "80",
+                        rationale: "El puerto 80 es el puerto estándar y predeterminado que utilizan los navegadores web para comunicarse con los servidores web a través de HTTP.",
+                        hint: "Es el número de puerto más común para el tráfico web no seguro."
+                    },
+                    {
+                        question: "¿Qué dirección IP es un ejemplo de una dirección IPv4 privada?",
+                        options: ["172.16.0.1", "200.20.10.10", "8.8.8.8", "198.1.2.3"],
+                        correctAnswer: "172.16.0.1",
+                        rationale: "Las direcciones IPv4 privadas se encuentran en tres rangos específicos: 10.0.0.0/8, 172.16.0.0/12, y 192.168.0.0/16. La opción 172.16.0.1 está dentro de uno de esos rangos.",
+                        hint: "Recuerda los rangos de direcciones IP privadas. Uno de ellos comienza con 172."
+                    },
+                    {
+                        question: "¿Qué protocolo de la capa de aplicación se utiliza para el envío de correo electrónico?",
+                        options: ["POP3", "IMAP", "SMTP", "HTTP"],
+                        correctAnswer: "SMTP",
+                        rationale: "SMTP (Simple Mail Transfer Protocol) es el protocolo estándar para la transmisión de correo electrónico entre servidores de correo. POP3 e IMAP se utilizan para recibirlo.",
+                        hint: "Su nombre se relaciona con el 'envío' de correo."
+                    },
+                    {
+                        question: "¿Cuál de las siguientes topologías de red conecta todos los dispositivos a un único cable central?",
+                        options: ["Anillo", "Malla", "Bus", "Estrella"],
+                        correctAnswer: "Bus",
+                        rationale: "En una topología de bus, todos los nodos están conectados a un cable principal (el 'bus') que transmite los datos.",
+                        hint: "El nombre de esta topología de red se asemeja al transporte público."
+                    },
+                    {
+                        question: "En el modelo OSI, ¿qué capa se encarga de la transmisión de datos a través de medios físicos?",
+                        options: ["Capa de Red", "Capa de Enlace de Datos", "Capa Física", "Capa de Transporte"],
+                        correctAnswer: "Capa Física",
+                        rationale: "La capa física es la primera capa del modelo OSI y es responsable de la transmisión de bits a través de un medio físico, como cables o señales de radio.",
+                        hint: "La capa más baja, relacionada con los componentes tangibles."
+                    },
+                    {
+                        question: "¿Qué es una dirección MAC?",
+                        options: ["Una dirección lógica que identifica un dispositivo en una red.", "Una dirección física única de 48 bits asignada a la interfaz de red por el fabricante.", "Una dirección que se utiliza para la navegación en Internet.", "Una dirección que cambia cada vez que el dispositivo se conecta a una red."],
+                        correctAnswer: "Una dirección física única de 48 bits asignada a la interfaz de red por el fabricante.",
+                        rationale: "La dirección MAC (Media Access Control) es un identificador único de 48 bits que se asigna a las tarjetas de red o NIC (Network Interface Controller).",
+                        hint: "La dirección MAC es un identificador de hardware único para cada tarjeta de red."
+                    },
+                    {
+                        question: "¿Qué comando de la línea de comandos se utiliza para probar la accesibilidad de un host en una red IP?",
+                        options: ["ipconfig", "ping", "tracert", "netstat"],
+                        correctAnswer: "ping",
+                        rationale: "El comando `ping` se utiliza para verificar la conectividad de un host a otro en una red IP enviando paquetes de datos y midiendo el tiempo de respuesta.",
+                        hint: "Piensa en un sonido que se usa para verificar si algo está vivo o 'responde'."
+                    }
+                ]
             },
             {
-                question: "En un sistema operativo Linux, ¿qué comando se utiliza para mostrar el contenido de un directorio?",
-                options: ["pwd", "ls", "cd", "mkdir"],
-                correctAnswer: "ls",
-                rationale: "El comando `ls` (list) se utiliza para listar los archivos y subdirectorios de un directorio.",
-                hint: "Recuerda el acrónimo del comando, que significa 'listado'."
-            },
-            {
-                question: "Según el Real Decreto 311/2022 que aprueba el Esquema Nacional de Seguridad (ENS), ¿qué nivel de seguridad le corresponde a la información cuyo daño afectaría gravemente a las funciones esenciales de la Administración?",
-                options: ["Bajo", "Medio", "Alto", "Muy Alto"],
-                correctAnswer: "Alto",
-                rationale: "El nivel de seguridad Alto se aplica a la información cuyo daño causaría un perjuicio grave o una pérdida de las funciones esenciales.",
-                hint: "Piensa en la escala de gravedad del daño: menor, importante, grave."
-            },
-            {
-                question: "En una base de datos relacional, ¿qué es una clave primaria?",
-                options: ["Un campo que puede contener valores duplicados.", "Un campo que se utiliza para enlazar dos tablas entre sí.", "Un identificador único para cada registro en una tabla.", "Un campo que solo puede contener valores nulos."],
-                correctAnswer: "Un identificador único para cada registro en una tabla.",
-                rationale: "Una clave primaria es un campo o conjunto de campos que identifica de forma única cada tupla (registro) en una tabla.",
-                hint: "Recuerda la función principal de una clave primaria: identificar de forma unívoca."
-            },
-            {
-                question: "¿Cuál es la función principal de un 'firewall' en una red informática?",
-                options: ["Aumentar la velocidad de la conexión a internet.", "Proteger la red de accesos no autorizados.", "Realizar copias de seguridad de los datos.", "Optimizar el uso del disco duro."],
-                correctAnswer: "Proteger la red de accesos no autorizados.",
-                rationale: "La función principal de un firewall es monitorear y filtrar el tráfico de red entrante y saliente basándose en reglas de seguridad para proteger contra amenazas.",
-                hint: "Piensa en un 'muro de fuego' en el contexto de la seguridad de la red."
-            },
-            {
-                question: "¿Qué tipo de ataque informático se basa en el envío masivo de peticiones a un servidor para sobrecargarlo y dejarlo inoperativo?",
-                options: ["Phishing", "DDoS (Distributed Denial of Service)", "Man-in-the-Middle (MitM)", "Ransomware"],
-                correctAnswer: "DDoS (Distributed Denial of Service)",
-                rationale: "Un ataque DDoS utiliza múltiples sistemas para enviar peticiones masivas a un objetivo, colapsando su servicio.",
-                hint: "El nombre del ataque describe su propósito: negar el servicio de manera distribuida."
-            },
-            {
-                question: "En Microsoft Excel, ¿qué función se utiliza para contar el número de celdas en un rango que cumplen con una condición específica?",
-                options: ["CONTAR.SI.CONJUNTO", "SUMAR.SI", "PROMEDIO.SI", "CONTAR.SI"],
-                correctAnswer: "CONTAR.SI",
-                rationale: "La función `CONTAR.SI` se utiliza para contar celdas en un rango que cumplen con una única condición, como por ejemplo, contar cuántas celdas son mayores que 10.",
-                hint: "La función de conteo más simple que utiliza una única condición."
-            },
-            {
-                question: "Según la Ley 39/2015, de 1 de octubre, del Procedimiento Administrativo Común de las Administraciones Públicas, ¿qué principio de la actuación administrativa electrónica establece que las Administraciones Públicas deberán asegurar la identidad de los interesados y de los órganos o personal de las Administraciones Públicas actuantes?",
-                options: ["Principio de transparencia", "Principio de autenticidad", "Principio de interoperabilidad", "Principio de proporcionalidad"],
-                correctAnswer: "Principio de autenticidad",
-                rationale: "El principio de autenticidad garantiza la identidad de los actores y la integridad de los documentos y trámites electrónicos, asegurando que se corresponden con la persona o entidad que los firma.",
-                hint: "El término clave es 'identidad'. ¿Qué palabra en las opciones se relaciona con la confirmación de la identidad?"
-            },
-            {
-                question: "¿Qué componente de hardware es el encargado de ejecutar las instrucciones de los programas y procesar los datos?",
-                options: ["La memoria RAM", "La tarjeta gráfica (GPU)", "La placa base (Motherboard)", "La CPU (Central Processing Unit)"],
-                correctAnswer: "La CPU (Central Processing Unit)",
-                rationale: "La CPU, o procesador, es el 'cerebro' del ordenador, responsable de interpretar y ejecutar las instrucciones de los programas, así como de procesar los datos.",
-                hint: "Su nombre en inglés significa 'Unidad Central de Procesamiento'."
-            },
-            {
-                question: "En ofimática, ¿qué es un macro?",
-                options: ["Una fórmula predefinida para realizar cálculos complejos.", "Un tipo de archivo para documentos con formatos específicos.", "Una secuencia de comandos o instrucciones que se almacenan y ejecutan para automatizar tareas repetitivas.", "Una hoja de cálculo muy grande que contiene más de 100.000 filas."],
-                correctAnswer: "Una secuencia de comandos o instrucciones que se almacenan y ejecutan para automatizar tareas repetitivas.",
-                rationale: "Un macro es una serie de instrucciones programadas que se pueden ejecutar de forma automática o con una simple acción, como pulsar un botón, para realizar tareas repetitivas.",
-                hint: "Piensa en las tareas que realizas a menudo. ¿Cómo las podrías simplificar o automatizar?"
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let answered = false;
-        
-        const questionTitle = document.getElementById('question-title');
-        const optionsContainer = document.getElementById('options-container');
-        const feedbackContainer = document.getElementById('feedback-container');
-        const feedbackTitle = document.getElementById('feedback-title');
-        const feedbackMessage = document.getElementById('feedback-message');
-        const nextBtn = document.getElementById('next-btn');
-        const showSolutionBtn = document.getElementById('show-solution-btn');
-        const restartBtn = document.getElementById('restart-btn');
-
-        /**
-         * Renderiza la pregunta actual en la interfaz.
-         */
-        function renderQuestion() {
-            if (currentQuestionIndex < quizData.length) {
-                const question = quizData[currentQuestionIndex];
-                questionTitle.textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}: ${question.question}`;
-                optionsContainer.innerHTML = '';
-                feedbackContainer.classList.add('hidden');
-                nextBtn.classList.add('hidden');
-                showSolutionBtn.classList.remove('hidden');
-                answered = false;
-
-                // Crea un botón para cada opción de respuesta
-                question.options.forEach(option => {
-                    const button = document.createElement('button');
-                    button.textContent = option;
-                    button.className = "w-full text-left p-4 rounded-lg bg-gray-100 border border-gray-300 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
-                    button.onclick = () => handleAnswer(option);
-                    optionsContainer.appendChild(button);
-                });
-            } else {
-                showResults();
-            }
-        }
-
-        /**
-         * Maneja la respuesta del usuario al seleccionar una opción.
-         * @param {string} selectedOption La opción de respuesta seleccionada por el usuario.
-         */
-        function handleAnswer(selectedOption) {
-            if (answered) return;
-
-            answered = true;
-            const question = quizData[currentQuestionIndex];
-            const isCorrect = (selectedOption === question.correctAnswer);
-            
-            // Desactiva los botones y muestra la respuesta correcta
-            Array.from(optionsContainer.children).forEach(button => {
-                button.disabled = true;
-                if (button.textContent === question.correctAnswer) {
-                    button.classList.add('bg-green-100', 'border-green-500');
-                } else if (button.textContent === selectedOption) {
-                    button.classList.add('bg-red-100', 'border-red-500');
-                }
-                button.classList.remove('hover:bg-gray-200');
-            });
-
-            // Muestra el feedback de la respuesta
-            feedbackContainer.classList.remove('hidden');
-            if (isCorrect) {
-                score++;
-                feedbackContainer.classList.add('bg-green-50', 'border-green-500');
-                feedbackContainer.classList.remove('bg-red-50', 'border-red-500');
-                feedbackTitle.textContent = "¡Respuesta correcta!";
-                feedbackMessage.textContent = question.rationale;
-            } else {
-                feedbackContainer.classList.add('bg-red-50', 'border-red-500');
-                feedbackContainer.classList.remove('bg-green-50', 'border-green-500');
-                feedbackTitle.textContent = "Respuesta incorrecta.";
-                feedbackMessage.textContent = `La respuesta correcta es: ${question.correctAnswer}. ${question.rationale}`;
-            }
-
-            nextBtn.classList.remove('hidden');
-            showSolutionBtn.classList.add('hidden');
-        }
-
-        /**
-         * Muestra la solución correcta sin que el usuario haya respondido.
-         */
-        function showSolution() {
-            if (answered) return;
-
-            const question = quizData[currentQuestionIndex];
-            
-            Array.from(optionsContainer.children).forEach(button => {
-                button.disabled = true;
-                if (button.textContent === question.correctAnswer) {
-                    button.classList.add('bg-blue-100', 'border-blue-500');
-                }
-                button.classList.remove('hover:bg-gray-200');
-            });
-
-            feedbackContainer.classList.remove('hidden');
-            feedbackContainer.classList.add('bg-blue-50', 'border-blue-500');
-            feedbackContainer.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
-            feedbackTitle.textContent = "Solución:";
-            feedbackMessage.textContent = question.rationale;
-            nextBtn.classList.remove('hidden');
-            showSolutionBtn.classList.add('hidden');
-        }
-
-        /**
-         * Pasa a la siguiente pregunta.
-         */
-        function nextQuestion() {
-            currentQuestionIndex++;
-            renderQuestion();
-        }
-        
-        /**
-         * Muestra los resultados finales del examen.
-         */
-        function showResults() {
-            questionTitle.textContent = "Examen Finalizado";
-            optionsContainer.innerHTML = `<p class="text-xl text-center font-semibold">Has respondido ${score} de ${quizData.length} preguntas correctamente.</p>`;
-            feedbackContainer.classList.add('hidden');
-            nextBtn.classList.add('hidden');
-            showSolutionBtn.classList.add('hidden');
-            restartBtn.classList.remove('hidden');
-        }
-
-        /**
-         * Reinicia el examen desde la primera pregunta.
-         */
-        function restartExam() {
-            currentQuestionIndex = 0;
-            score = 0;
-            restartBtn.classList.add('hidden');
-            renderQuestion();
-        }
-
-        nextBtn.addEventListener('click', nextQuestion);
-        showSolutionBtn.addEventListener('click', showSolution);
-        restartBtn.addEventListener('click', restartExam);
-
-        renderQuestion();
-    </script>
-
-</body>
-</html>
-
+                title: "Examen de Sistemas Operativos",
+                questions: [
+                    {
+                        question: "En un sistema operativo Linux, ¿qué comando se utiliza para mostrar el contenido de un directorio?",
+                        options: ["pwd", "ls", "cd", "mkdir"],
+                        correctAnswer: "ls",
+                        rationale: "El comando `ls` (list) se utiliza para listar los archivos y subdirectorios de un directorio.",
+                        hint: "Recuerda el acrónimo del comando, que significa 'listado'."
+                    },
+                    {
+                        question: "¿Qué componente de hardware es el encargado de ejecutar las instrucciones de los programas y procesar los datos?",
+                        options: ["La memoria RAM", "La tarjeta gráfica (GPU)", "La placa base (Motherboard)", "La CPU (Central Processing Unit)"],
+                        correctAnswer: "La CPU (Central Processing Unit)",
+                        rationale: "La CPU, o procesador, es el 'cerebro' del ordenador, responsable de interpretar y ejecutar las instrucciones de los programas, así como de procesar los datos.",
+                        hint: "Su nombre en inglés significa 'Unidad Central de Procesamiento'."
+                    },
+                    {
+                        question: "¿Qué significa el acrónimo RAM?",
+                        options: ["Read-Only Memory", "Random Access Memory", "Read Access Memory", "Rapid and Modern"],
+                        correctAnswer: "Random Access Memory",
+                        rationale: "RAM significa 'Random Access Memory' o 'Memoria de Acceso Aleatorio', que es el tipo de memoria volátil que utiliza el sistema operativo y las aplicaciones para trabajar con datos activamente.",
+                        hint: "Piensa en el significado de sus siglas en inglés."
+                    },
+                    {
+                        question: "En Windows, ¿qué combinación de teclas se utiliza para abrir el Administrador de Tareas?",
+                        options: ["Ctrl + Alt + Supr", "Ctrl + Shift + Esc", "Alt + F4", "Windows + R"],
+                        correctAnswer: "Ctrl + Shift + Esc",
+                        rationale: "La combinación 'Ctrl + Shift + Esc' abre directamente el Administrador de Tareas en Windows, mientras que 'Ctrl + Alt + Supr' ofrece un menú con varias opciones, incluida la de abrir el administrador.",
+                        hint: "Es la combinación más directa para abrir esta herramienta de administración."
+                    },
+                    {
+                        question: "¿Qué es un 'proceso' en el contexto de un sistema operativo?",
+                        options: ["Un archivo ejecutable almacenado en el disco duro.", "Una tarea que se ejecuta en segundo plano.", "Una instancia de un programa en ejecución.", "Un conjunto de datos que se procesan al mismo tiempo."],
+                        correctAnswer: "Una instancia de un programa en ejecución.",
+                        rationale: "Un proceso es una instancia en ejecución de un programa que tiene sus propios recursos de memoria y ejecución, gestionados por el sistema operativo.",
+                        hint: "Se refiere a la ejecución de un programa, no al archivo en sí mismo."
+                    },
+                    {
+                        question: "¿Cuál de las siguientes no es una función principal de un sistema operativo?",
+                        options: ["Gestión de la memoria", "Gestión de archivos", "Gestión de recursos de hardware", "Creación de contenido multimedia"],
+                        correctAnswer: "Creación de contenido multimedia",
+                        rationale: "Aunque los sistemas operativos pueden ejecutar programas de creación de contenido multimedia, su función principal es gestionar los recursos del sistema y no crear el contenido por sí mismos.",
+                        hint: "Piensa en las tareas fundamentales del sistema, como la gestión de hardware y software."
+                    },
+                    {
+                        question: "En Linux, ¿qué comando se utiliza para cambiar el directorio actual?",
+                        options: ["ls", "mkdir", "cd", "rmdir"],
+                        correctAnswer: "cd",
+                        rationale: "El comando `cd` (change directory) se utiliza para navegar entre directorios en la línea de comandos de sistemas basados en Unix y Linux.",
+                        hint: "El acrónimo del comando es 'cambiar directorio'."
+                    },
+                    {
+                        question: "¿Qué es el 'kernel' de un sistema operativo?",
+                        options: ["La interfaz de usuario del sistema.", "Un programa antivirus preinstalado.", "El componente central que gestiona la comunicación entre el hardware y el software.", "El conjunto de aplicaciones preinstaladas."],
+                        correctAnswer: "El componente central que gestiona la comunicación entre el hardware y el software.",
+                        rationale: "El kernel es el núcleo del sistema operativo, responsable de la gestión de los recursos del sistema y de permitir que las aplicaciones accedan al hardware.",
+                        hint: "Es el corazón del sistema operativo, el componente más bajo y fundamental."
+                    },
+                    {
+                        question: "¿Cuál de los siguientes es un sistema operativo de código abierto?",
+                        options: ["Windows", "macOS", "iOS", "Android"],
+                        correctAnswer: "Android",
+                  
